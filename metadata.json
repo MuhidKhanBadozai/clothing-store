@@ -1,0 +1,6 @@
+{
+  "name": "Sana Safinaz Luxury Pret & SKU Inventory",
+  "description": "Modern minimalist luxury fashion store inspired by Sana Safinaz with integrated cart, SKU-based inventory backend system, responsive navigation, and dark mode.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
