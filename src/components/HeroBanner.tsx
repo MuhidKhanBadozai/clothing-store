@@ -23,7 +23,7 @@ export const HeroBanner: React.FC = () => {
             </h1>
 
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 max-w-lg font-light leading-relaxed">
-              Explore the iconic Sana Safinaz collection — intricately stitched viscose, printed lawn co-ord culottes, and exquisite chikankari threadwork.
+              Explore the iconic FAMA collection — intricately stitched viscose, printed lawn co-ord culottes, and exquisite chikankari threadwork.
             </p>
 
             <div className="pt-2 flex items-center gap-3 sm:gap-4 flex-wrap">
@@ -55,7 +55,7 @@ export const HeroBanner: React.FC = () => {
             <div className="relative aspect-[3/4] rounded-xs overflow-hidden shadow-md group">
               <img
                 src="https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80"
-                alt="Sana Safinaz Festive Pret"
+                alt="FAMA Festive Pret"
                 className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-4">
@@ -68,7 +68,7 @@ export const HeroBanner: React.FC = () => {
             <div className="relative aspect-[3/4] rounded-xs overflow-hidden shadow-md group mt-6 sm:mt-8">
               <img
                 src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80"
-                alt="Sana Safinaz Printed Lawn"
+                alt="FAMA Printed Lawn"
                 className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-4">

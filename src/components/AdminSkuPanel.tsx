@@ -192,7 +192,7 @@ export const AdminSkuPanel: React.FC = () => {
   };
 
   const handleResetCatalog = () => {
-    if (window.confirm('Reset inventory back to initial Sana Safinaz factory catalog?')) {
+    if (window.confirm('Reset inventory back to initial FAMA factory catalog?')) {
       inventoryService.resetToDefaultCatalog();
       refreshProducts();
       showToast('Inventory reset to initial catalog.');

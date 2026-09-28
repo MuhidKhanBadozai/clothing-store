@@ -66,7 +66,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({ isOpen, onClose }) =
               {/* Header */}
               <div className="flex items-center justify-between p-5 border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950">
                 <h3 className="font-serif-brand font-medium text-sm tracking-wider uppercase text-neutral-900 dark:text-white">
-                  Sana Safinaz Member Portal
+                  FAMA Member Portal
                 </h3>
                 <button
                   onClick={onClose}

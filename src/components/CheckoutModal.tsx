@@ -86,7 +86,7 @@ export const CheckoutModal: React.FC = () => {
           <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950">
             <div className="flex items-center gap-2">
               <span className="font-serif-brand tracking-widest text-sm font-bold uppercase text-neutral-900 dark:text-white">
-                Sana Safinaz Luxury Checkout
+                FAMA Luxury Checkout
               </span>
             </div>
             <button
@@ -161,7 +161,7 @@ export const CheckoutModal: React.FC = () => {
               {/* Items summary pill banner */}
               <div className="p-3 bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xs flex items-center justify-between text-xs">
                 <span className="text-neutral-600 dark:text-neutral-400">
-                  Purchasing {cart.length} item(s) from Sana Safinaz
+                  Purchasing {cart.length} item(s) from FAMA
                 </span>
                 <span className="font-bold text-neutral-950 dark:text-white">
                   Total: {formatPrice(orderTotal)}

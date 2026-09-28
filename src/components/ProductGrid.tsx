@@ -23,12 +23,15 @@ export const ProductGrid: React.FC = () => {
 
   // Filter products by category, search query, sizes, price range, stock
   const filteredProducts = products.filter((item: Product) => {
-    // Category filter
+    // Category filter: on-sale products appear in SALE section AND in their own category
     if (activeCategory === 'SALE') {
+      // Only show products that have a discount
       if (!item.discountPercentage || item.discountPercentage <= 0) return false;
     } else if (activeCategory === 'NEW ARRIVALS') {
+      // Show all new arrivals (whether on sale or not)
       if (!item.isNewArrival) return false;
     } else if (activeCategory !== 'ALL' && activeCategory !== 'SHOP BY CATEGORY') {
+      // Show the product in its own category regardless of sale status
       if (item.category !== activeCategory) return false;
     }
 

@@ -126,7 +126,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccount }) => {
               className="group text-center focus:outline-none"
             >
               <h1 className="font-brand text-2xl sm:text-3xl md:text-4xl font-normal text-neutral-950 dark:text-white tracking-[0.22em] transition-transform duration-200">
-                SANA SAFINAZ
+                FAMA
               </h1>
               <p className="text-[9px] uppercase tracking-[0.35em] text-neutral-500 dark:text-neutral-400 -mt-1 font-light">
                 Luxury Pret · Couture · Wesst
@@ -187,16 +187,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccount }) => {
             >
               <ShoppingBag className="w-3.5 h-3.5" />
               <span>CART ({cartCount})</span>
-            </button>
-
-            {/* SKU Admin Backend Inventory Entry Button */}
-            <button
-              onClick={() => setIsAdminPanelOpen(true)}
-              className="hidden lg:inline-flex items-center gap-1.5 border border-dashed border-neutral-400 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:border-black dark:hover:border-white px-2.5 py-1.5 rounded-sm text-[11px] font-medium tracking-tight transition-colors"
-              title="Open SKU Inventory Backend System"
-            >
-              <Boxes className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-              <span>SKU ADMIN</span>
             </button>
           </div>
         </div>

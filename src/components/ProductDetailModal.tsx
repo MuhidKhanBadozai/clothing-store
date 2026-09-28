@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useStore } from '../context/StoreContext';
 import { ProductSize } from '../types/inventory';
-import { 
-  X, 
-  Heart, 
-  ShoppingBag, 
-  Check, 
-  Copy, 
-  Ruler, 
-  Truck, 
-  RefreshCw, 
-  ShieldCheck, 
-  ChevronDown, 
-  ChevronUp 
+import {
+  X,
+  Heart,
+  ShoppingBag,
+  Check,
+  Copy,
+  Ruler,
+  Truck,
+  RefreshCw,
+  ShieldCheck,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 
 export const ProductDetailModal: React.FC = () => {
@@ -124,11 +124,10 @@ export const ProductDetailModal: React.FC = () => {
                         <button
                           key={idx}
                           onClick={() => setActiveImageIndex(idx)}
-                          className={`relative w-16 h-20 rounded-xs overflow-hidden border transition-all cursor-pointer ${
-                            activeImageIndex === idx
+                          className={`relative w-16 h-20 rounded-xs overflow-hidden border transition-all cursor-pointer ${activeImageIndex === idx
                               ? 'border-neutral-950 dark:border-white ring-1 ring-neutral-950 dark:ring-white'
                               : 'border-neutral-200 dark:border-neutral-800 opacity-70 hover:opacity-100'
-                          }`}
+                            }`}
                         >
                           <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
                         </button>
@@ -226,13 +225,12 @@ export const ProductDetailModal: React.FC = () => {
                             key={sz}
                             disabled={!inStock}
                             onClick={() => setSelectedSize(sz)}
-                            className={`flex-1 py-2 text-xs font-medium border rounded-xs transition-all cursor-pointer ${
-                              isSelected
+                            className={`flex-1 py-2 text-xs font-medium border rounded-xs transition-all cursor-pointer ${isSelected
                                 ? 'bg-neutral-950 text-white border-neutral-950 dark:bg-white dark:text-neutral-950'
                                 : inStock
-                                ? 'border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 hover:border-black dark:hover:border-white'
-                                : 'border-neutral-200 dark:border-neutral-800 text-neutral-300 dark:text-neutral-600 line-through cursor-not-allowed bg-neutral-50 dark:bg-neutral-900'
-                            }`}
+                                  ? 'border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 hover:border-black dark:hover:border-white'
+                                  : 'border-neutral-200 dark:border-neutral-800 text-neutral-300 dark:text-neutral-600 line-through cursor-not-allowed bg-neutral-50 dark:bg-neutral-900'
+                              }`}
                           >
                             {sz}
                           </button>
@@ -294,11 +292,10 @@ export const ProductDetailModal: React.FC = () => {
                         aria-label="Wishlist"
                       >
                         <Heart
-                          className={`w-4 h-4 ${
-                            isWishlisted(selectedProduct.id)
+                          className={`w-4 h-4 ${isWishlisted(selectedProduct.id)
                               ? 'fill-red-600 text-red-600'
                               : 'text-neutral-700 dark:text-neutral-300'
-                          }`}
+                            }`}
                         />
                       </button>
                     </div>

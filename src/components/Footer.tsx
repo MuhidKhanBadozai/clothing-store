@@ -27,10 +27,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-12 border-b border-neutral-800">
           <div className="lg:col-span-6 space-y-4">
             <h2 className="font-brand text-2xl sm:text-3xl text-white tracking-[0.25em] uppercase">
-              SANA SAFINAZ
+              FAMA
             </h2>
             <p className="text-xs text-neutral-400 max-w-md leading-relaxed">
-              Established in 1989, Sana Safinaz represents the pinnacle of Pakistani luxury pret, couture, and contemporary pret. Pioneers in celebrating rich artisanal heritage through modern, minimalist expressions.
+              Established in 1989, FAMA represents the pinnacle of Pakistani luxury pret, couture, and contemporary pret. Pioneers in celebrating rich artisanal heritage through modern, minimalist expressions.
             </p>
             <div className="flex items-center gap-4 text-xs text-neutral-400 pt-2">
               <span className="flex items-center gap-1.5">
@@ -180,21 +180,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
               <span>Backend Management</span>
             </h4>
             <p className="text-[11px] text-neutral-400 mb-3 leading-relaxed">
-              Internal SKU-based warehouse inventory control. Manage stock allocations, add SKUs, and export data.
+              Internal SKU-based warehouse inventory control and multi-size tracking.
             </p>
-            <button
-              onClick={() => setIsAdminPanelOpen(true)}
-              className="inline-flex items-center gap-2 px-3 py-2 bg-neutral-900 border border-neutral-700 hover:border-amber-400 text-neutral-200 text-xs font-semibold rounded-xs transition-colors"
-            >
-              <Boxes className="w-3.5 h-3.5 text-amber-400" />
-              <span>Open SKU Admin</span>
-            </button>
           </div>
         </div>
 
         {/* Bottom Copyright & Guarantee */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-          <p>© 2026 Sana Safinaz. All rights reserved. Registered trademark.</p>
+          <p>© 2026 FAMA. All rights reserved. Registered trademark.</p>
           <div className="flex items-center gap-4 text-[11px]">
             <span>100% Genuine Guaranteed</span>
             <span>·</span>

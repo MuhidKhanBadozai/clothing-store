@@ -224,18 +224,6 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({ onOpenAccount }) => 
                 <span>WISHLIST</span>
               </button>
 
-              {/* Admin Panel Link */}
-              <button
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  setIsAdminPanelOpen(true);
-                }}
-                className="flex items-center gap-3 text-xs uppercase tracking-wider font-medium text-amber-700 dark:text-amber-400 hover:text-amber-800 w-full py-1.5 transition-colors cursor-pointer"
-              >
-                <Boxes className="w-4 h-4" />
-                <span>SKU INVENTORY (ADMIN)</span>
-              </button>
-
               {/* Theme & Currency settings in mobile drawer */}
               <div className="pt-3 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-400">
                 <div className="flex items-center gap-2">
