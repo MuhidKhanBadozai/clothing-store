@@ -5,39 +5,36 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 interface StoryItem {
   name: string;
   categoryValue: string;
+  fabricValue?: string;
   image: string;
   badge?: string;
 }
 
 export const CategoryStoryCircles: React.FC = () => {
-  const { activeCategory, setActiveCategory } = useStore();
+  const { activeCategory, setActiveCategory, activeFabricFilter, setActiveFabricFilter } = useStore();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const stories: StoryItem[] = [
     {
-      name: 'SHOES',
-      categoryValue: 'ACCESSORIES',
-      image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=400&q=80',
+      name: 'SALE',
+      categoryValue: 'SALE',
+      image: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=400&q=80',
+      badge: '-30%',
     },
     {
-      name: 'ACCESSORIES',
-      categoryValue: 'ACCESSORIES',
-      image: 'https://images.unsplash.com/photo-1535043934128-cf0b28d52f95?auto=format&fit=crop&w=400&q=80',
+      name: 'NEW ARRIVALS',
+      categoryValue: 'NEW ARRIVALS',
+      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=400&q=80',
     },
     {
-      name: 'KIDS',
-      categoryValue: 'KIDS',
-      image: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=400&q=80',
+      name: 'WOMEN',
+      categoryValue: 'WOMEN',
+      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
     },
     {
-      name: 'HOME',
-      categoryValue: 'HOME',
-      image: 'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      name: 'SS WESST',
-      categoryValue: 'SS WESST',
-      image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80',
+      name: 'MEN',
+      categoryValue: 'MEN',
+      image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
     },
     {
       name: 'READY TO WEAR',
@@ -45,20 +42,68 @@ export const CategoryStoryCircles: React.FC = () => {
       image: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=400&q=80',
     },
     {
-      name: 'UNSTITCHED FABRIC',
+      name: 'UNSTITCHED',
       categoryValue: 'UNSTITCHED FABRIC',
       image: 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=400&q=80',
     },
     {
-      name: 'COUTURE',
-      categoryValue: 'COUTURE',
-      image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=80',
+      name: 'LINEN',
+      categoryValue: 'UNSTITCHED FABRIC',
+      fabricValue: 'Linen',
+      image: 'https://images.unsplash.com/photo-1558618047-3c8a1a5b6e6b?auto=format&fit=crop&w=400&q=80',
     },
     {
-      name: 'SALE',
-      categoryValue: 'SALE',
-      image: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=400&q=80',
-      badge: '-30%',
+      name: 'KHADDAR',
+      categoryValue: 'UNSTITCHED FABRIC',
+      fabricValue: 'Khaddar',
+      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      name: 'KARANDI',
+      categoryValue: 'UNSTITCHED FABRIC',
+      fabricValue: 'Karandi',
+      image: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      name: 'MARINA',
+      categoryValue: 'UNSTITCHED FABRIC',
+      fabricValue: 'Marina',
+      image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      name: 'JACQUARD',
+      categoryValue: 'UNSTITCHED FABRIC',
+      fabricValue: 'Jacquard',
+      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      name: 'PASHMINA',
+      categoryValue: 'UNSTITCHED FABRIC',
+      fabricValue: 'Pashmina',
+      image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      name: 'WOOL',
+      categoryValue: 'UNSTITCHED FABRIC',
+      fabricValue: 'Wool',
+      image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      name: 'PRINTED SILK',
+      categoryValue: 'UNSTITCHED FABRIC',
+      fabricValue: 'Printed silk',
+      image: 'https://images.unsplash.com/photo-1583316174775-bd6dc0e9f298?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      name: 'LAWN',
+      categoryValue: 'UNSTITCHED FABRIC',
+      fabricValue: 'Lawn',
+      image: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      name: 'HOME',
+      categoryValue: 'HOME',
+      image: 'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=400&q=80',
     },
   ];
 
@@ -87,12 +132,17 @@ export const CategoryStoryCircles: React.FC = () => {
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {stories.map((story) => {
-          const isSelected = activeCategory === story.categoryValue;
+          const isFabricItem = Boolean(story.fabricValue);
+          const isSelected = story.fabricValue
+            ? activeCategory === story.categoryValue && activeFabricFilter === story.fabricValue
+            : activeCategory === story.categoryValue && (!isFabricItem || activeFabricFilter === 'ALL');
           return (
             <button
-              key={story.name}
+              key={`${story.categoryValue}-${story.name}`}
               onClick={() => {
                 setActiveCategory(story.categoryValue);
+                setActiveFabricFilter(story.fabricValue || 'ALL');
+                window.scrollTo({ top: 350, behavior: 'smooth' });
               }}
               className="group flex flex-col items-center shrink-0 cursor-pointer focus:outline-none"
             >
@@ -100,7 +150,7 @@ export const CategoryStoryCircles: React.FC = () => {
                 className={`relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full overflow-hidden p-1 transition-all duration-300 ${
                   isSelected
                     ? 'ring-2 ring-neutral-900 dark:ring-white scale-105'
-                    : 'ring-1 ring-neutral-200 dark:ring-neutral-700 group-hover:ring-neutral-400 group-hover:scale-102'
+                    : 'ring-1 ring-neutral-200 dark:ring-neutral-700 group-hover:ring-neutral-400 group-hover:scale-105'
                 }`}
               >
                 <div className="w-full h-full rounded-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">

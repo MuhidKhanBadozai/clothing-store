@@ -26,11 +26,21 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
         {/* Top Newsletter & Brand Statement */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-12 border-b border-neutral-800">
           <div className="lg:col-span-6 space-y-4">
-            <h2 className="font-brand text-2xl sm:text-3xl text-white tracking-[0.25em] uppercase">
-              FAMA
-            </h2>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-amber-500 font-semibold">
+                  Logo
+                </span>
+                <h2 className="font-brand text-2xl sm:text-3xl text-white tracking-[0.25em] uppercase">
+                  FAMMA
+                </h2>
+              </div>
+              <p className="text-[10px] uppercase tracking-[0.28em] text-neutral-400 mt-1 font-light">
+                Fashion for Every Moment
+              </p>
+            </div>
             <p className="text-xs text-neutral-400 max-w-md leading-relaxed">
-              Established in 1989, FAMA represents the pinnacle of Pakistani luxury pret, couture, and contemporary pret. Pioneers in celebrating rich artisanal heritage through modern, minimalist expressions.
+              Established in 1989, FAMMA represents the pinnacle of luxury pret, unstitched artisanal fabrics, and contemporary silhouettes. Pioneers in celebrating rich eastern craftsmanship.
             </p>
             <div className="flex items-center gap-4 text-xs text-neutral-400 pt-2">
               <span className="flex items-center gap-1.5">
@@ -86,6 +96,28 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
               <li>
                 <button
                   onClick={() => {
+                    setActiveCategory('WOMEN');
+                    window.scrollTo({ top: 350, behavior: 'smooth' });
+                  }}
+                  className="hover:text-white transition-colors"
+                >
+                  Women's Collection
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    setActiveCategory('MEN');
+                    window.scrollTo({ top: 350, behavior: 'smooth' });
+                  }}
+                  className="hover:text-white transition-colors"
+                >
+                  Men's Collection
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
                     setActiveCategory('READY TO WEAR');
                     window.scrollTo({ top: 350, behavior: 'smooth' });
                   }}
@@ -108,17 +140,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
               <li>
                 <button
                   onClick={() => {
-                    setActiveCategory('SS WESST');
-                    window.scrollTo({ top: 350, behavior: 'smooth' });
-                  }}
-                  className="hover:text-white transition-colors"
-                >
-                  SS Wesst Modern
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
                     setActiveCategory('SALE');
                     window.scrollTo({ top: 350, behavior: 'smooth' });
                   }}
@@ -130,12 +151,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
               <li>
                 <button
                   onClick={() => {
-                    setActiveCategory('COUTURE');
+                    setActiveCategory('HOME');
                     window.scrollTo({ top: 350, behavior: 'smooth' });
                   }}
                   className="hover:text-white transition-colors"
                 >
-                  Bridal &amp; Couture
+                  Home Ensembles
                 </button>
               </li>
             </ul>
@@ -187,7 +208,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
 
         {/* Bottom Copyright & Guarantee */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-          <p>© 2026 FAMA. All rights reserved. Registered trademark.</p>
+          <p>© 2026 FAMMA. All rights reserved. Registered trademark.</p>
           <div className="flex items-center gap-4 text-[11px]">
             <span>100% Genuine Guaranteed</span>
             <span>·</span>

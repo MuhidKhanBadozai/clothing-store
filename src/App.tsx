@@ -15,6 +15,7 @@ import { MobileDrawer } from './components/MobileDrawer';
 import { WishlistDrawer } from './components/WishlistDrawer';
 import { AccountModal } from './components/AccountModal';
 import { Footer } from './components/Footer';
+import { ContactPage } from './components/ContactPage';
 import { Check } from 'lucide-react';
 
 function StoreFront() {
@@ -46,33 +47,48 @@ function StoreFront() {
       <MobileDrawer onOpenAccount={() => setIsAccountOpen(true)} />
 
       <main className="flex-1">
-        {/* Story Category Circles Carousel - Matches d1.png */}
-        <CategoryStoryCircles />
 
-        {/* Hero Banner (Shown on ALL/Home) with smooth animation */}
-        <AnimatePresence mode="wait">
-          {activeCategory === 'ALL' && (
+        {/* Contact Page */}
+        {activeCategory === 'CONTACT US' ? (
+          <motion.div
+            key="contact-page"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            <ContactPage />
+          </motion.div>
+        ) : (
+          <>
+            {/* Story Category Circles Carousel - Matches d1.png */}
+            <CategoryStoryCircles />
+
+            {/* Hero Banner (Shown on ALL/Home) with smooth animation */}
+            <AnimatePresence mode="wait">
+              {activeCategory === 'ALL' && (
+                <motion.div
+                  key="hero-banner"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <HeroBanner />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Main Product Catalog Grid - Matches d2.png */}
             <motion.div
-              key="hero-banner"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+              key={activeCategory}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25 }}
             >
-              <HeroBanner />
+              <ProductGrid />
             </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Main Product Catalog Grid - Matches d2.png */}
-        <motion.div
-          key={activeCategory}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25 }}
-        >
-          <ProductGrid />
-        </motion.div>
+          </>
+        )}
       </main>
 
       {/* Slide-out & Modal Drawers (all animated with AnimatePresence) */}

@@ -29,6 +29,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({ onOpenAccount }) => 
     isMobileMenuOpen,
     setIsMobileMenuOpen,
     setActiveCategory,
+    setActiveFabricFilter,
     currency,
     setCurrency,
     isDarkMode,
@@ -48,30 +49,25 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({ onOpenAccount }) => 
 
   const navItems: NavItem[] = [
     {
+      name: 'WOMEN',
+      categoryValue: 'WOMEN',
+      subItems: ['Ready to Wear', 'Unstitched', 'Formal', 'Casual'],
+    },
+    {
+      name: 'MEN',
+      categoryValue: 'MEN',
+      subItems: ['Kurtas', 'Waistcoats', 'Unstitched Fabric', 'Formal Shirts'],
+    },
+    {
       name: 'SALE',
       categoryValue: 'SALE',
       isSale: true,
-      subItems: ['Ready to Wear Sale', 'Unstitched Sale', 'Wesst Flat 30% Off', 'Shoes & Bags Sale'],
+      subItems: ['Ready to Wear Sale', 'Unstitched Sale', 'Flat 30% Off'],
     },
     {
       name: 'NEW ARRIVALS',
       categoryValue: 'NEW ARRIVALS',
-      subItems: ["Summer Lawn '26", 'Eid Pret Edit', 'Luxury Jacquard', 'SS Wesst Spring'],
-    },
-    {
-      name: 'SHOP BY CATEGORY',
-      categoryValue: 'ALL',
-      subItems: ['2-Piece Suits', '3-Piece Suits', 'Kurtas & Tunics', 'Bottoms & Culottes', 'Dupattas & Shawls'],
-    },
-    {
-      name: 'SS WESST',
-      categoryValue: 'SS WESST',
-      subItems: ['Tailored Blazers', 'Shirts & Blouses', 'Trousers & Culottes', 'Outerwear'],
-    },
-    {
-      name: 'UNSTITCHED FABRIC',
-      categoryValue: 'UNSTITCHED FABRIC',
-      subItems: ['3-Piece Lawn', 'Luxury Chiffon', 'Zari Jacquard', 'Silk Ensembles'],
+      subItems: ["Summer Lawn '26", 'Eid Pret Edit', 'Luxury Jacquard', 'Spring Edit'],
     },
     {
       name: 'READY TO WEAR',
@@ -79,29 +75,30 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({ onOpenAccount }) => 
       subItems: ['Basic Printed Viscose', 'Embroidered Lawn', 'Monochrome Pret', 'Festive Silk'],
     },
     {
-      name: 'KIDS',
-      categoryValue: 'KIDS',
-      subItems: ['Girls Eastern', 'Girls Western', 'Boys Kurta', 'Accessories'],
-    },
-    {
-      name: 'ACCESSORIES',
-      categoryValue: 'ACCESSORIES',
-      subItems: ['Footwear & Khussa', 'Handbags & Clutches', 'Jewelry', 'Scarves & Stoles'],
-    },
-    {
-      name: 'COUTURE',
-      categoryValue: 'COUTURE',
-      subItems: ['Formal Evening Pret', 'Raw Silk Peshwas', 'Hand Embellished Formals'],
-    },
-    {
-      name: 'BRIDAL',
-      categoryValue: 'BRIDAL',
+      name: 'UNSTITCHED FABRIC',
+      categoryValue: 'UNSTITCHED FABRIC',
+      subItems: [
+        'Linen',
+        'Khaddar',
+        'Karandi',
+        'Marina',
+        'Jacquard',
+        'Pashmina',
+        'Wool',
+        'Printed silk',
+        'Lawn'
+      ],
     },
     {
       name: 'HOME',
       categoryValue: 'HOME',
-      subItems: ['Bed Linen', 'Embroidered Cushions', 'Table Runners', 'Fragrance & Candles'],
+      subItems: ['Bed Linen', 'Embroidered Cushions', 'Table Runners'],
     },
+    {
+      name: 'CONTACT US',
+      categoryValue: 'CONTACT US',
+      subItems: ['Customer Support', 'Store Locations', 'Message Us'],
+    }
   ];
 
   return (
@@ -186,6 +183,11 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({ onOpenAccount }) => 
                             key={sub}
                             onClick={() => {
                               setActiveCategory(item.categoryValue);
+                              if (item.categoryValue === 'UNSTITCHED FABRIC') {
+                                setActiveFabricFilter(sub);
+                              } else {
+                                setActiveFabricFilter('ALL');
+                              }
                               setIsMobileMenuOpen(false);
                             }}
                             className="block text-xs text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-white py-1 transition-colors text-left w-full"

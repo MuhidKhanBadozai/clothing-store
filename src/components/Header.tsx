@@ -21,6 +21,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccount }) => {
   const {
     activeCategory,
     setActiveCategory,
+    activeFabricFilter,
+    setActiveFabricFilter,
     isDarkMode,
     toggleDarkMode,
     currency,
@@ -37,22 +39,32 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccount }) => {
 
   const [topBannerDismissed, setTopBannerDismissed] = useState(false);
 
+  // Removed: BRIDAL, COUTURE, ACCESSORIES, KIDS
   const categories = [
     { label: 'ALL', value: 'ALL' },
+    { label: 'WOMEN', value: 'WOMEN' },
+    { label: 'MEN', value: 'MEN' },
     { label: 'SALE', value: 'SALE', highlight: true },
     { label: 'NEW ARRIVALS', value: 'NEW ARRIVALS' },
     { label: 'READY TO WEAR', value: 'READY TO WEAR' },
     { label: 'UNSTITCHED FABRIC', value: 'UNSTITCHED FABRIC' },
-    { label: 'SS WESST', value: 'SS WESST' },
-    { label: 'KIDS', value: 'KIDS' },
-    { label: 'ACCESSORIES', value: 'ACCESSORIES' },
-    { label: 'COUTURE', value: 'COUTURE' },
-    { label: 'BRIDAL', value: 'BRIDAL' },
     { label: 'HOME', value: 'HOME' },
   ];
 
+  const FABRIC_TYPES = [
+    'Linen',
+    'Khaddar',
+    'Karandi',
+    'Marina',
+    'Jacquard',
+    'Pashmina',
+    'Wool',
+    'Printed silk',
+    'Lawn'
+  ];
+
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 transition-colors duration-200">
+    <header className="relative sticky top-0 z-40 w-full bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 transition-colors duration-200">
       {/* Top Announcement Bar - Matches d1.png */}
       {!topBannerDismissed && (
         <div className="bg-[#111111] dark:bg-neutral-900 text-white text-[11px] sm:text-xs py-2 px-4 border-b border-neutral-800">
@@ -74,10 +86,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccount }) => {
       )}
 
       {/* Main Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
-          {/* Left: Mobile Menu & Hamburger */}
-          <div className="flex items-center gap-3">
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center h-16 sm:h-20">
+
+          {/* Far Left: Hamburger Menu + Currency */}
+          <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={() => setIsMobileMenuOpen(true)}
               className="group flex items-center gap-2 text-xs uppercase tracking-widest font-medium py-2 px-2.5 rounded-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
@@ -89,8 +102,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccount }) => {
               </span>
             </button>
 
-            {/* Currency selector on desktop */}
-            <div className="hidden lg:flex items-center text-xs tracking-wider text-neutral-600 dark:text-neutral-400 border-l border-neutral-200 dark:border-neutral-800 pl-3">
+            {/* Currency selector */}
+            <div className="flex items-center text-xs tracking-wider text-neutral-600 dark:text-neutral-400 border-l border-neutral-200 dark:border-neutral-800 pl-3">
               <button
                 onClick={() => setCurrency('PKR')}
                 className={`px-1.5 py-0.5 rounded transition-colors ${
@@ -99,7 +112,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccount }) => {
                     : 'hover:text-neutral-900 dark:hover:text-white'
                 }`}
               >
-                PKR (Rs)
+                PKR
               </button>
               <span className="text-neutral-300 dark:text-neutral-700">/</span>
               <button
@@ -110,32 +123,44 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccount }) => {
                     : 'hover:text-neutral-900 dark:hover:text-white'
                 }`}
               >
-                USD ($)
+                USD
               </button>
             </div>
           </div>
 
-          {/* Center: Brand Regal Typography Logo */}
-          <div className="flex-1 flex justify-center text-center">
+          {/* Absolute Center: FAMMA Logo & Tagline */}
+          <div className="absolute left-1/2 -translate-x-1/2">
             <button
               onClick={() => {
                 setActiveCategory('ALL');
+                setActiveFabricFilter('ALL');
                 resetFilters();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="group text-center focus:outline-none"
             >
-              <h1 className="font-brand text-2xl sm:text-3xl md:text-4xl font-normal text-neutral-950 dark:text-white tracking-[0.22em] transition-transform duration-200">
-                FAMA
+              <h1 className="font-brand text-2xl sm:text-3xl md:text-4xl font-normal text-neutral-950 dark:text-white tracking-[0.22em] transition-transform duration-200 group-hover:opacity-80">
+                FAMMA
               </h1>
-              <p className="text-[9px] uppercase tracking-[0.35em] text-neutral-500 dark:text-neutral-400 -mt-1 font-light">
-                Luxury Pret · Couture · Wesst
+              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.28em] text-neutral-500 dark:text-neutral-400 mt-0.5 font-light">
+                Fashion for Every Moment
               </p>
             </button>
           </div>
 
-          {/* Right: Actions (Log in, Search, Dark mode, Wishlist, Cart, SKU Admin) */}
-          <div className="flex items-center gap-1 sm:gap-3 text-xs tracking-wider">
+          {/* Far Right: Actions */}
+          <div className="ml-auto flex items-center gap-1 sm:gap-3 text-xs tracking-wider shrink-0">
+            {/* Contact Page Link */}
+            <button
+              onClick={() => {
+                setActiveCategory('CONTACT US');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="hidden md:inline-flex items-center gap-1 text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium uppercase px-2 py-1.5 transition-colors"
+            >
+              <span>CONTACT</span>
+            </button>
+
             {/* Account / Log in */}
             <button
               onClick={onOpenAccount}
@@ -179,7 +204,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccount }) => {
               )}
             </button>
 
-            {/* Cart - Matches screenshot format "CART (0)" */}
+            {/* Cart */}
             <button
               onClick={() => setIsCartOpen(true)}
               className="inline-flex items-center gap-1.5 bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold px-3 py-1.5 rounded-sm hover:opacity-90 transition-opacity"
@@ -200,9 +225,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccount }) => {
                 key={cat.value}
                 onClick={() => {
                   setActiveCategory(cat.value);
+                  if (cat.value !== 'UNSTITCHED FABRIC') {
+                    setActiveFabricFilter('ALL');
+                  }
                   window.scrollTo({ top: 350, behavior: 'smooth' });
                 }}
-                className={`relative px-2 py-1 transition-colors whitespace-nowrap ${
+                className={`relative px-2.5 py-1 transition-colors whitespace-nowrap ${
                   cat.highlight
                     ? 'text-red-600 dark:text-red-400 font-bold'
                     : isActive
@@ -218,6 +246,46 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccount }) => {
             );
           })}
         </nav>
+
+        {/* Subcategories Bar for UNSTITCHED FABRIC */}
+        {activeCategory === 'UNSTITCHED FABRIC' && (
+          <div className="py-2.5 px-2 border-t border-dashed border-neutral-200 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-900/60 animate-fadeIn">
+            <div className="flex items-center justify-center gap-2 flex-wrap text-xs">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mr-1 flex items-center gap-1">
+                <span>Fabrics:</span>
+              </span>
+              <button
+                onClick={() => setActiveFabricFilter('ALL')}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                  activeFabricFilter === 'ALL'
+                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 shadow-xs'
+                    : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 border border-neutral-200 dark:border-neutral-700'
+                }`}
+              >
+                All Fabrics
+              </button>
+              {FABRIC_TYPES.map((fabric) => {
+                const isSelected = activeFabricFilter.toLowerCase() === fabric.toLowerCase();
+                return (
+                  <button
+                    key={fabric}
+                    onClick={() => {
+                      setActiveFabricFilter(fabric);
+                      window.scrollTo({ top: 380, behavior: 'smooth' });
+                    }}
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                      isSelected
+                        ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 shadow-xs ring-1 ring-neutral-900 dark:ring-white'
+                        : 'bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 border border-neutral-200 dark:border-neutral-700'
+                    }`}
+                  >
+                    {fabric}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );

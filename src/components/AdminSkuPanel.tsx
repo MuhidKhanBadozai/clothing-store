@@ -48,6 +48,7 @@ export const AdminSkuPanel: React.FC = () => {
   const [newOriginalPrice, setNewOriginalPrice] = useState('9990');
   const [newCostPrice, setNewCostPrice] = useState('3200');
   const [newColor, setNewColor] = useState('Teal Turquoise');
+  const [newFabricTag, setNewFabricTag] = useState('Lawn');
   const [newFabric, setNewFabric] = useState('Pure Cambric Lawn with Resham Threadwork');
   const [newWarehouse, setNewWarehouse] = useState('WH-KHI-AISLE-5B');
   const [newImageUrl, setNewImageUrl] = useState(
@@ -134,7 +135,8 @@ export const AdminSkuPanel: React.FC = () => {
         discountPercentage: discount,
         costPrice: cost,
         color: newColor.trim(),
-        fabric: newFabric.trim(),
+        fabricTag: newFabricTag,
+        fabric: newFabric.trim() || newFabricTag,
         warehouseLocation: newWarehouse.trim(),
         images: [newImageUrl.trim()],
         sizes: [
@@ -342,13 +344,10 @@ export const AdminSkuPanel: React.FC = () => {
                 className="text-xs px-3 py-2 bg-white dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-700 rounded-xs text-neutral-800 dark:text-neutral-200"
               >
                 <option value="ALL">All Categories</option>
+                <option value="WOMEN">Women</option>
+                <option value="MEN">Men</option>
                 <option value="READY TO WEAR">Ready to Wear</option>
                 <option value="UNSTITCHED FABRIC">Unstitched Fabric</option>
-                <option value="SS WESST">SS Wesst</option>
-                <option value="COUTURE">Couture</option>
-                <option value="BRIDAL">Bridal</option>
-                <option value="KIDS">Kids</option>
-                <option value="ACCESSORIES">Accessories</option>
                 <option value="HOME">Home</option>
               </select>
 
@@ -659,27 +658,45 @@ export const AdminSkuPanel: React.FC = () => {
                     className="w-full px-3 py-2 text-xs bg-neutral-50 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-700 rounded-xs text-neutral-900 dark:text-white"
                   >
                     <option value="READY TO WEAR">Ready to Wear</option>
+                    <option value="WOMEN">Women</option>
+                    <option value="MEN">Men</option>
                     <option value="UNSTITCHED FABRIC">Unstitched Fabric</option>
-                    <option value="SS WESST">SS Wesst</option>
-                    <option value="COUTURE">Couture</option>
-                    <option value="BRIDAL">Bridal</option>
-                    <option value="KIDS">Kids</option>
-                    <option value="ACCESSORIES">Accessories</option>
                     <option value="HOME">Home</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-neutral-800 dark:text-neutral-200 mb-1">
-                    Collection / Season
+                    Fabric Type Tag *
                   </label>
-                  <input
-                    type="text"
-                    value={newCollection}
-                    onChange={(e) => setNewCollection(e.target.value)}
+                  <select
+                    value={newFabricTag}
+                    onChange={(e) => setNewFabricTag(e.target.value)}
                     className="w-full px-3 py-2 text-xs bg-neutral-50 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-700 rounded-xs text-neutral-900 dark:text-white"
-                  />
+                  >
+                    <option value="Linen">Linen</option>
+                    <option value="Khaddar">Khaddar</option>
+                    <option value="Karandi">Karandi</option>
+                    <option value="Marina">Marina</option>
+                    <option value="Jacquard">Jacquard</option>
+                    <option value="Pashmina">Pashmina</option>
+                    <option value="Wool">Wool</option>
+                    <option value="Printed silk">Printed silk</option>
+                    <option value="Lawn">Lawn</option>
+                  </select>
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-neutral-800 dark:text-neutral-200 mb-1">
+                  Collection / Season
+                </label>
+                <input
+                  type="text"
+                  value={newCollection}
+                  onChange={(e) => setNewCollection(e.target.value)}
+                  className="w-full px-3 py-2 text-xs bg-neutral-50 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-700 rounded-xs text-neutral-900 dark:text-white"
+                />
               </div>
 
               {/* Pricing (Retail, Original, Cost) */}

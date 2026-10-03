@@ -10,6 +10,8 @@ export const FilterDrawer: React.FC = () => {
     setIsFilterOpen,
     activeCategory,
     setActiveCategory,
+    activeFabricFilter,
+    setActiveFabricFilter,
     selectedSizes,
     toggleSizeFilter,
     priceRange,
@@ -22,16 +24,25 @@ export const FilterDrawer: React.FC = () => {
 
   const categories = [
     'ALL',
+    'WOMEN',
+    'MEN',
     'SALE',
     'NEW ARRIVALS',
     'READY TO WEAR',
     'UNSTITCHED FABRIC',
-    'SS WESST',
-    'KIDS',
-    'ACCESSORIES',
-    'COUTURE',
-    'BRIDAL',
     'HOME',
+  ];
+
+  const FABRIC_TYPES = [
+    'Linen',
+    'Khaddar',
+    'Karandi',
+    'Marina',
+    'Jacquard',
+    'Pashmina',
+    'Wool',
+    'Printed silk',
+    'Lawn'
   ];
 
   const sizes: ProductSize[] = ['XS', 'S', 'M', 'L', 'XL'];
@@ -92,6 +103,51 @@ export const FilterDrawer: React.FC = () => {
                       {cat}
                     </button>
                   ))}
+                </div>
+              </div>
+
+              {/* Fabric Type Filter */}
+              <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+                    Fabric Type
+                  </label>
+                  {activeFabricFilter !== 'ALL' && (
+                    <button
+                      onClick={() => setActiveFabricFilter('ALL')}
+                      className="text-[11px] text-red-500 hover:underline"
+                    >
+                      Reset
+                    </button>
+                  )}
+                </div>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <button
+                    onClick={() => setActiveFabricFilter('ALL')}
+                    className={`text-left px-2 py-1.5 text-xs rounded-xs transition-colors cursor-pointer ${
+                      activeFabricFilter === 'ALL'
+                        ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-bold'
+                        : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                    }`}
+                  >
+                    All Fabrics
+                  </button>
+                  {FABRIC_TYPES.map((fabric) => {
+                    const isSelected = activeFabricFilter.toLowerCase() === fabric.toLowerCase();
+                    return (
+                      <button
+                        key={fabric}
+                        onClick={() => setActiveFabricFilter(fabric)}
+                        className={`text-left px-2 py-1.5 text-xs rounded-xs transition-colors cursor-pointer ${
+                          isSelected
+                            ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-bold'
+                            : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                        }`}
+                      >
+                        {fabric}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 

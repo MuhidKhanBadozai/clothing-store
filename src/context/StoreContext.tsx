@@ -8,6 +8,8 @@ interface StoreContextType {
   // Navigation
   activeCategory: string;
   setActiveCategory: (cat: string) => void;
+  activeFabricFilter: string;
+  setActiveFabricFilter: (fabric: string) => void;
   // Theme
   isDarkMode: boolean;
   toggleDarkMode: () => void;
@@ -78,6 +80,7 @@ const USD_RATE = 278.5; // 1 USD = 278.5 PKR
 export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>(() => inventoryService.getAll());
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
+  const [activeFabricFilter, setActiveFabricFilter] = useState<string>('ALL');
 
   // Dark mode - Strictly default to Light mode as requested
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -208,6 +211,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setOnlyInStock(false);
     setSortBy('featured');
     setSearchQuery('');
+    setActiveFabricFilter('ALL');
   };
 
   // Modals & Panels
@@ -355,6 +359,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         refreshProducts,
         activeCategory,
         setActiveCategory,
+        activeFabricFilter,
+        setActiveFabricFilter,
         isDarkMode,
         toggleDarkMode,
         currency,

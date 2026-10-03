@@ -12,14 +12,13 @@ export interface Product {
   category: 
     | 'SALE'
     | 'NEW ARRIVALS'
+    | 'WOMEN'
+    | 'MEN'
     | 'READY TO WEAR'
     | 'UNSTITCHED FABRIC'
-    | 'SS WESST'
-    | 'KIDS'
-    | 'ACCESSORIES'
-    | 'COUTURE'
-    | 'BRIDAL'
     | 'HOME';
+  fabricTag?: string; // Linen, Khaddar, Karandi, Marina, Jacquard, Pashmina, Wool, Printed silk, Lawn
+  gender?: 'WOMEN' | 'MEN' | 'ALL' | string;
   subCategory?: string;
   collection: string;
   price: number; // In PKR

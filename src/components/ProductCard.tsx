@@ -81,6 +81,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           />
         </button>
 
+        {/* Fabric Tag Badge on Image */}
+        {(product.fabricTag || product.fabric) && (
+          <div className="absolute bottom-3 left-3 px-2 py-0.5 rounded-full bg-neutral-900/80 dark:bg-white/90 text-white dark:text-neutral-900 backdrop-blur-xs text-[10px] font-semibold tracking-wider uppercase shadow-xs">
+            {product.fabricTag || product.fabric}
+          </div>
+        )}
+
         {/* Quick View Button on Desktop Hover */}
         <div className="absolute inset-x-3 bottom-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden md:block">
           <button
@@ -103,15 +110,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {product.name}
         </h3>
 
-        {/* SKU (Stock Keeping Unit) - Tabular Clean Minimalist */}
-        <div className="flex items-center gap-2 mt-0.5">
+        {/* SKU (Stock Keeping Unit) & Fabric Tag */}
+        <div className="flex items-center gap-2 mt-0.5 flex-wrap">
           <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
             {product.sku}
           </span>
           <span className="text-[10px] text-neutral-400">·</span>
-          <span className="text-[10px] text-neutral-500 dark:text-neutral-400 uppercase tracking-tight">
-            {product.collection}
+          <span className="text-[10px] font-medium text-amber-700 dark:text-amber-400 uppercase tracking-tight bg-amber-50 dark:bg-amber-950/50 px-1.5 py-0.2 rounded-xs border border-amber-200 dark:border-amber-800/60">
+            {product.fabricTag || product.fabric || 'Lawn'}
           </span>
+          {product.collection && (
+            <>
+              <span className="text-[10px] text-neutral-400">·</span>
+              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 uppercase tracking-tight">
+                {product.collection}
+              </span>
+            </>
+          )}
         </div>
 
         {/* Price Row: Original (Struck-through) + Discounted - Matches d2.png */}

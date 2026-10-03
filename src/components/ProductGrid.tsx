@@ -9,6 +9,8 @@ export const ProductGrid: React.FC = () => {
     products,
     activeCategory,
     setActiveCategory,
+    activeFabricFilter,
+    setActiveFabricFilter,
     setIsFilterOpen,
     sortBy,
     setSortBy,
@@ -21,7 +23,7 @@ export const ProductGrid: React.FC = () => {
     resetFilters,
   } = useStore();
 
-  // Filter products by category, search query, sizes, price range, stock
+  // Filter products by category, fabric tag, search query, sizes, price range, stock
   const filteredProducts = products.filter((item: Product) => {
     // Category filter: on-sale products appear in SALE section AND in their own category
     if (activeCategory === 'SALE') {
@@ -30,9 +32,35 @@ export const ProductGrid: React.FC = () => {
     } else if (activeCategory === 'NEW ARRIVALS') {
       // Show all new arrivals (whether on sale or not)
       if (!item.isNewArrival) return false;
+    } else if (activeCategory === 'WOMEN') {
+      // Show all products selected for Women
+      const isWomen = item.category === 'WOMEN' ||
+                      item.gender === 'WOMEN' ||
+                      item.gender === 'ALL' ||
+                      (!item.gender && item.category !== 'MEN');
+      if (!isWomen) return false;
+    } else if (activeCategory === 'MEN') {
+      // Show all products selected for Men
+      const isMen = item.category === 'MEN' ||
+                    item.gender === 'MEN' ||
+                    item.gender === 'ALL';
+      if (!isMen) return false;
     } else if (activeCategory !== 'ALL' && activeCategory !== 'SHOP BY CATEGORY') {
       // Show the product in its own category regardless of sale status
       if (item.category !== activeCategory) return false;
+    }
+
+    // Fabric tag filter (e.g. Linen, Khaddar, Karandi, etc.)
+    if (activeFabricFilter && activeFabricFilter !== 'ALL') {
+      const targetFabric = activeFabricFilter.toLowerCase();
+      const itemFabric = (item.fabricTag || item.fabric || item.subCategory || '').toLowerCase();
+      const itemName = item.name.toLowerCase();
+      const itemDesc = (item.description || '').toLowerCase();
+      const matchesFabric = 
+        itemFabric.includes(targetFabric) || 
+        itemName.includes(targetFabric) || 
+        itemDesc.includes(targetFabric);
+      if (!matchesFabric) return false;
     }
 
     // Search query
@@ -41,7 +69,7 @@ export const ProductGrid: React.FC = () => {
       const matchName = item.name.toLowerCase().includes(q);
       const matchSku = item.sku.toLowerCase().includes(q);
       const matchCat = item.category.toLowerCase().includes(q);
-      const matchFabric = item.fabric.toLowerCase().includes(q);
+      const matchFabric = (item.fabricTag || item.fabric || '').toLowerCase().includes(q);
       const matchCollection = item.collection.toLowerCase().includes(q);
       if (!matchName && !matchSku && !matchCat && !matchFabric && !matchCollection) {
         return false;
@@ -87,7 +115,8 @@ export const ProductGrid: React.FC = () => {
     (selectedSizes.length > 0 ? 1 : 0) +
     (priceRange[0] > 0 || priceRange[1] < 100000 ? 1 : 0) +
     (onlyInStock ? 1 : 0) +
-    (searchQuery ? 1 : 0);
+    (searchQuery ? 1 : 0) +
+    (activeFabricFilter !== 'ALL' ? 1 : 0);
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
@@ -96,9 +125,16 @@ export const ProductGrid: React.FC = () => {
         <div>
           <h2 className="font-serif-brand font-medium text-xl sm:text-2xl tracking-widest uppercase text-neutral-950 dark:text-white">
             {activeCategory === 'ALL' ? 'Complete Collection' : activeCategory}
+            {activeFabricFilter !== 'ALL' && (
+              <span className="text-amber-600 dark:text-amber-400 font-sans text-lg ml-2 font-normal">
+                · {activeFabricFilter}
+              </span>
+            )}
           </h2>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-            Contemporary silhouettes crafted with timeless eastern artisanal craftsmanship.
+            {activeFabricFilter !== 'ALL' 
+              ? `Showing signature ${activeFabricFilter} fabric ensembles designed for every moment.` 
+              : 'Contemporary silhouettes crafted with timeless eastern artisanal craftsmanship.'}
           </p>
         </div>
 
@@ -106,6 +142,12 @@ export const ProductGrid: React.FC = () => {
         {activeFiltersCount > 0 && (
           <div className="flex items-center gap-2 flex-wrap text-xs">
             <span className="text-neutral-400">Filters:</span>
+            {activeFabricFilter !== 'ALL' && (
+              <span className="inline-flex items-center gap-1 bg-amber-100 dark:bg-amber-950/50 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-800 px-2 py-0.5 rounded text-[11px] font-medium">
+                Fabric: {activeFabricFilter}
+                <button onClick={() => setActiveFabricFilter('ALL')} className="hover:text-black">✕</button>
+              </span>
+            )}
             {searchQuery && (
               <span className="inline-flex items-center gap-1 bg-neutral-200 dark:bg-neutral-800 px-2 py-0.5 rounded text-neutral-800 dark:text-neutral-200 text-[11px]">
                 "{searchQuery}"

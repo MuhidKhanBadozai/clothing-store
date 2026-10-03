@@ -150,8 +150,8 @@ export const ProductDetailModal: React.FC = () => {
                       {selectedProduct.name}
                     </h2>
 
-                    {/* SKU (Stock Keeping Unit) with quick copy */}
-                    <div className="mt-1.5 flex items-center gap-2">
+                    {/* SKU & Fabric Tag */}
+                    <div className="mt-1.5 flex items-center gap-2 flex-wrap">
                       <span className="text-xs text-neutral-500 dark:text-neutral-400">SKU:</span>
                       <span className="font-mono text-xs font-bold text-neutral-800 dark:text-neutral-200">
                         {selectedProduct.sku}
@@ -163,6 +163,9 @@ export const ProductDetailModal: React.FC = () => {
                       >
                         {copiedSku ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                       </button>
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
+                        Fabric: {selectedProduct.fabricTag || selectedProduct.fabric || 'Lawn'}
+                      </span>
                     </div>
 
                     {/* Price */}
