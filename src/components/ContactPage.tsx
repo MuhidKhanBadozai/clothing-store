@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Mail, Phone, Send, CheckCircle2, MapPin } from 'lucide-react';
 
 // 🔑 Your Web3Forms public access key
-const WEB3FORMS_ACCESS_KEY = '8e01a4ce-c5c1-4874-8929-5c0c229e1bc8'; // Change this key in production
+const WEB3FORMS_ACCESS_KEY = 'f0656e9d-f5cb-49d5-bb56-d7b01c935529';
 
 export const ContactPage: React.FC = () => {
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
