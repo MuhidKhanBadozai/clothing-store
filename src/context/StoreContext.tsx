@@ -63,7 +63,7 @@ interface StoreContextType {
   // Checkout
   isCheckoutOpen: boolean;
   setIsCheckoutOpen: (open: boolean) => void;
-  placeOrder: (customerData: Omit<CustomerOrder, 'orderId' | 'items' | 'subtotal' | 'shippingFee' | 'total' | 'createdAt' | 'status'>) => CustomerOrder;
+  placeOrder: (customerData: Omit<CustomerOrder, 'orderId' | 'items' | 'subtotal' | 'shippingFee' | 'total' | 'createdAt' | 'status'>) => Promise<CustomerOrder>;
   // Toast notification
   toastMessage: string | null;
   showToast: (msg: string) => void;
@@ -321,32 +321,37 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setSelectedProduct(null);
   };
 
-  const placeOrder = (
+  const placeOrder = async (
     customerData: Omit<CustomerOrder, 'orderId' | 'items' | 'subtotal' | 'shippingFee' | 'total' | 'createdAt' | 'status'>
-  ): CustomerOrder => {
+  ): Promise<CustomerOrder> => {
     const subtotal = cartSubtotal;
     // Flat shipping PKR 250 in Pakistan, free over PKR 15,000 (or $300)
-    const shippingFee = subtotal > 15000 || subtotal === 0 ? 0 : 250;
+    const shippingFee = subtotal >= 15000 || subtotal === 0 ? 0 : 250;
     const total = subtotal + shippingFee - (customerData.discount || 0);
 
     const newOrder: CustomerOrder = {
       ...customerData,
-      orderId: `SS-ORD-${Date.now().toString().slice(-6)}`,
+      orderId: `FAMA-ORD-${Date.now().toString().slice(-6)}`,
       items: cart.map((i) => ({
         sku: i.sku,
         name: i.name,
         size: i.size,
         price: i.price,
         quantity: i.quantity,
+        image: i.image || '',
+        productId: i.productId
       })),
       subtotal,
       shippingFee,
       total: Math.max(0, total),
       status: 'PROCESSING',
+      paymentStatus: customerData.paymentMethod === 'CARD' ? 'PAID' : 'PENDING',
+      country: customerData.country || 'Pakistan',
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
 
-    inventoryService.recordOrder(newOrder);
+    await inventoryService.recordOrder(newOrder);
     clearCart();
     refreshProducts();
     return newOrder;

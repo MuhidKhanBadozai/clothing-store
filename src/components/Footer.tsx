@@ -22,15 +22,15 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
   return (
     <footer className="bg-neutral-950 text-neutral-300 pt-16 pb-12 border-t border-neutral-800 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Top Newsletter & Brand Statement */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-12 border-b border-neutral-800">
           <div className="lg:col-span-6 space-y-4">
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-amber-500 font-semibold">
+                {/* <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-amber-500 font-semibold">
                   Logo
-                </span>
+                </span> */}
                 <h2 className="font-brand text-2xl sm:text-3xl text-white tracking-[0.25em] uppercase">
                   FAMMA
                 </h2>
@@ -50,7 +50,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
               <span>·</span>
               <span className="flex items-center gap-1.5">
                 <Phone className="w-3.5 h-3.5 text-amber-500" />
-                021-111-003-005
+                03200119800
               </span>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import { Product, CustomerOrder, InventoryStats, ProductSize } from '../types/inventory';
 import { db } from './firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, updateDoc, deleteDoc, addDoc } from 'firebase/firestore';
 
 const ORDERS_STORAGE_KEY = 'fama_orders';
 
@@ -14,8 +14,8 @@ class InventoryService {
   public async fetchProducts() {
     try {
       const querySnapshot = await getDocs(collection(db, "products"));
-      const data = querySnapshot.docs.map(doc => {
-        const item = doc.data();
+      const data = querySnapshot.docs.map(docSnap => {
+        const item = docSnap.data();
 
         // Parse sizes: support both structured array [{size: 'M', stock: 10}] or object {XS: 2, S: 5} or legacy quantity
         let parsedSizes: { size: ProductSize; stock: number }[] = [];
@@ -52,7 +52,7 @@ class InventoryService {
         }
 
         return {
-          id: doc.id,
+          id: docSnap.id,
           sku: item.sku || '',
           name: item.name || '',
           category: item.category || 'READY TO WEAR',
@@ -100,10 +100,8 @@ class InventoryService {
       return this.products.filter((p) => (p.discountPercentage ?? 0) > 0);
     }
     if (category === 'NEW ARRIVALS') {
-      // Show all new arrivals regardless of sale status
       return this.products.filter((p) => p.isNewArrival);
     }
-    // Show all products in the category, including those on sale
     return this.products.filter((p) => p.category === category);
   }
 
@@ -120,15 +118,137 @@ class InventoryService {
     return { totalSkus: this.products.length, totalUnits, lowStockSkus, outOfStockSkus, totalRetailValue, totalCostValue };
   }
 
-  public recordOrder(order: CustomerOrder): void {
+  // --- Orders Handling with Firestore ---
+
+  public async recordOrder(order: CustomerOrder): Promise<void> {
     try {
+      // 1. Save to local storage for instant offline access
       const raw = localStorage.getItem(ORDERS_STORAGE_KEY);
       const orders: CustomerOrder[] = raw ? JSON.parse(raw) : [];
       orders.unshift(order);
       localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
+
+      // 2. Persist directly to Firebase Firestore "orders" collection
+      const orderPayload = {
+        ...order,
+        createdAt: order.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      await setDoc(doc(db, "orders", order.orderId), orderPayload);
+
+      // 3. Decrement stock for ordered items in Firestore & memory
+      for (const item of order.items) {
+        const prod = this.products.find(p => p.sku.toUpperCase() === item.sku.toUpperCase());
+        if (prod) {
+          const targetSize = prod.sizes.find(s => s.size === item.size);
+          if (targetSize) {
+            targetSize.stock = Math.max(0, targetSize.stock - item.quantity);
+            prod.quantity = prod.sizes.reduce((acc, cur) => acc + cur.stock, 0);
+
+            // Update in Firestore
+            try {
+              await updateDoc(doc(db, "products", prod.id), {
+                sizes: prod.sizes,
+                quantity: prod.quantity
+              });
+            } catch (stockErr) {
+              console.warn(`Could not update stock for product ${prod.id} in Firebase:`, stockErr);
+            }
+          }
+        }
+      }
+
+      window.dispatchEvent(new Event('inventory_updated'));
     } catch (e) {
-      console.error('Error recording order', e);
+      console.error('Error recording order to Firestore:', e);
+      // Fallback: save to localStorage
+      try {
+        const raw = localStorage.getItem(ORDERS_STORAGE_KEY);
+        const orders: CustomerOrder[] = raw ? JSON.parse(raw) : [];
+        if (!orders.some(o => o.orderId === order.orderId)) {
+          orders.unshift(order);
+          localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
+        }
+      } catch (localErr) {
+        console.error('Local fallback failed:', localErr);
+      }
     }
+  }
+
+  public getOrders(): CustomerOrder[] {
+    try {
+      const raw = localStorage.getItem(ORDERS_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  // --- SKU Admin Panel Methods ---
+
+  public async updateStockBySkuSize(sku: string, size: ProductSize, newStock: number): Promise<Product> {
+    const prod = this.getBySku(sku);
+    if (!prod) throw new Error(`SKU ${sku} not found`);
+    const sizeObj = prod.sizes.find(s => s.size === size);
+    if (sizeObj) {
+      sizeObj.stock = Math.max(0, newStock);
+    } else {
+      prod.sizes.push({ size, stock: Math.max(0, newStock) });
+    }
+    prod.quantity = prod.sizes.reduce((acc, curr) => acc + curr.stock, 0);
+    try {
+      await updateDoc(doc(db, "products", prod.id), {
+        sizes: prod.sizes,
+        quantity: prod.quantity
+      });
+    } catch (err) {
+      console.error('Error updating stock in Firebase:', err);
+    }
+    window.dispatchEvent(new Event('inventory_updated'));
+    return prod;
+  }
+
+  public async deleteProductBySku(sku: string): Promise<boolean> {
+    const prod = this.getBySku(sku);
+    if (!prod) return false;
+    try {
+      await deleteDoc(doc(db, "products", prod.id));
+      this.products = this.products.filter(p => p.sku !== sku);
+      window.dispatchEvent(new Event('inventory_updated'));
+      return true;
+    } catch (err) {
+      console.error('Error deleting product from Firebase:', err);
+      return false;
+    }
+  }
+
+  public async addProduct(productData: Omit<Product, 'id' | 'createdAt'>): Promise<Product> {
+    const newDoc = await addDoc(collection(db, "products"), {
+      ...productData,
+      createdAt: new Date().toISOString()
+    });
+    const newProduct: Product = {
+      ...productData,
+      id: newDoc.id,
+      createdAt: new Date().toISOString()
+    };
+    this.products.unshift(newProduct);
+    window.dispatchEvent(new Event('inventory_updated'));
+    return newProduct;
+  }
+
+  public exportJson(): string {
+    return JSON.stringify(this.products, null, 2);
+  }
+
+  public exportCsv(): string {
+    const headers = ['SKU', 'Name', 'Category', 'Price', 'Quantity'];
+    const rows = this.products.map(p => [`"${p.sku}"`, `"${p.name.replace(/"/g, '""')}"`, `"${p.category}"`, p.price, p.quantity].join(','));
+    return [headers.join(','), ...rows].join('\n');
+  }
+
+  public resetToDefaultCatalog(): void {
+    this.fetchProducts();
   }
 }
 
