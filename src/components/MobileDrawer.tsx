@@ -30,8 +30,6 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({ onOpenAccount }) => 
     setIsMobileMenuOpen,
     setActiveCategory,
     setActiveFabricFilter,
-    currency,
-    setCurrency,
     isDarkMode,
     toggleDarkMode,
     setIsWishlistOpen,
@@ -228,21 +226,11 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({ onOpenAccount }) => 
 
               {/* Theme & Currency settings in mobile drawer */}
               <div className="pt-3 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-400">
-                <div className="flex items-center gap-2">
-                  <Globe className="w-3.5 h-3.5" />
-                  <button
-                    onClick={() => setCurrency('PKR')}
-                    className={`px-1 cursor-pointer ${currency === 'PKR' ? 'font-bold text-neutral-900 dark:text-white' : ''}`}
-                  >
+                <div className="flex items-center gap-1.5 text-neutral-800 dark:text-neutral-200">
+                  <Globe className="w-3.5 h-3.5 text-neutral-500" />
+                  <span className="px-1 font-bold text-neutral-900 dark:text-white">
                     PKR
-                  </button>
-                  <span>|</span>
-                  <button
-                    onClick={() => setCurrency('USD')}
-                    className={`px-1 cursor-pointer ${currency === 'USD' ? 'font-bold text-neutral-900 dark:text-white' : ''}`}
-                  >
-                    USD
-                  </button>
+                  </span>
                 </div>
 
                 <button

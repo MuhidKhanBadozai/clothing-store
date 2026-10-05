@@ -14,8 +14,8 @@ interface StoreContextType {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   // Currency
-  currency: 'PKR' | 'USD';
-  setCurrency: (c: 'PKR' | 'USD') => void;
+  currency: 'PKR';
+  setCurrency: (c?: string) => void;
   formatPrice: (pkrAmount: number) => string;
   // Cart
   cart: CartItem[];
@@ -75,7 +75,6 @@ const CART_KEY = 'ss_cart_items';
 const WISHLIST_KEY = 'ss_wishlist_items';
 const THEME_KEY = 'ss_theme_mode_v2';
 const CURRENCY_KEY = 'ss_currency';
-const USD_RATE = 278.5; // 1 USD = 278.5 PKR
 
 export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>(() => inventoryService.getAll());
@@ -121,25 +120,22 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     });
   };
 
-  // Currency
-  const [currency, setCurrencyState] = useState<'PKR' | 'USD'>(() => {
-    try {
-      return (localStorage.getItem(CURRENCY_KEY) as 'PKR' | 'USD') || 'PKR';
-    } catch {
-      return 'PKR';
-    }
-  });
+  // Currency - Exclusively PKR
+  const currency: 'PKR' = 'PKR';
 
-  const setCurrency = (c: 'PKR' | 'USD') => {
-    setCurrencyState(c);
-    localStorage.setItem(CURRENCY_KEY, c);
+  useEffect(() => {
+    try {
+      localStorage.setItem(CURRENCY_KEY, 'PKR');
+    } catch {
+      // Ignore
+    }
+  }, []);
+
+  const setCurrency = (_c?: string) => {
+    // Exclusively PKR
   };
 
   const formatPrice = (pkrAmount: number): string => {
-    if (currency === 'USD') {
-      const usdVal = pkrAmount / USD_RATE;
-      return `$${usdVal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    }
     return `Rs.${pkrAmount.toLocaleString('en-PK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
@@ -325,7 +321,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     customerData: Omit<CustomerOrder, 'orderId' | 'items' | 'subtotal' | 'shippingFee' | 'total' | 'createdAt' | 'status'>
   ): Promise<CustomerOrder> => {
     const subtotal = cartSubtotal;
-    // Flat shipping PKR 250 in Pakistan, free over PKR 15,000 (or $300)
+    // Flat shipping PKR 250 in Pakistan, free over PKR 15,000
     const shippingFee = subtotal >= 15000 || subtotal === 0 ? 0 : 250;
     const total = subtotal + shippingFee - (customerData.discount || 0);
 

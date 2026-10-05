@@ -56,7 +56,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
           </div>
 
           {/* Newsletter Box */}
-          <div className="lg:col-span-6 lg:pl-10 space-y-3">
+          {/* <div className="lg:col-span-6 lg:pl-10 space-y-3">
             <h3 className="text-xs font-semibold uppercase tracking-widest text-white">
               Stay in the Know
             </h3>
@@ -82,7 +82,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
                 {subscribed ? <Check className="w-4 h-4 text-emerald-600" /> : 'Subscribe'}
               </button>
             </form>
-          </div>
+          </div> */}
         </div>
 
         {/* Navigation Link Columns */}
@@ -195,7 +195,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
           </div>
 
           {/* Backend Inventory Portal Entry */}
-          <div>
+          {/* <div>
             <h4 className="font-bold text-amber-400 uppercase tracking-wider mb-4 flex items-center gap-1.5">
               <Boxes className="w-3.5 h-3.5" />
               <span>Backend Management</span>
@@ -203,7 +203,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
             <p className="text-[11px] text-neutral-400 mb-3 leading-relaxed">
               Internal SKU-based warehouse inventory control and multi-size tracking.
             </p>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom Copyright & Guarantee */}

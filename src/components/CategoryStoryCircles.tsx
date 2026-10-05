@@ -128,7 +128,7 @@ export const CategoryStoryCircles: React.FC = () => {
       {/* Story Circle Carousel - Exactly matching d1.png */}
       <div
         ref={scrollContainerRef}
-        className="flex items-center gap-6 sm:gap-10 overflow-x-auto no-scrollbar scroll-smooth px-2 py-2"
+        className="flex items-center gap-4 sm:gap-8 md:gap-10 overflow-x-auto no-scrollbar scroll-smooth px-3 sm:px-6 py-2"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {stories.map((story) => {
@@ -147,7 +147,7 @@ export const CategoryStoryCircles: React.FC = () => {
               className="group flex flex-col items-center shrink-0 cursor-pointer focus:outline-none"
             >
               <div
-                className={`relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full overflow-hidden p-1 transition-all duration-300 ${
+                className={`relative w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full overflow-hidden p-0.5 sm:p-1 transition-all duration-300 ${
                   isSelected
                     ? 'ring-2 ring-neutral-900 dark:ring-white scale-105'
                     : 'ring-1 ring-neutral-200 dark:ring-neutral-700 group-hover:ring-neutral-400 group-hover:scale-105'
@@ -162,13 +162,13 @@ export const CategoryStoryCircles: React.FC = () => {
                   />
                 </div>
                 {story.badge && (
-                  <span className="absolute bottom-1 right-2 bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow">
+                  <span className="absolute bottom-1 right-1.5 sm:right-2 bg-red-600 text-white text-[8px] sm:text-[9px] font-bold px-1.5 py-0.2 sm:py-0.5 rounded-full shadow">
                     {story.badge}
                   </span>
                 )}
               </div>
               <span
-                className={`mt-2.5 text-[11px] sm:text-xs tracking-wider uppercase font-semibold transition-colors ${
+                className={`mt-2 sm:mt-2.5 text-[10px] sm:text-xs tracking-wider uppercase font-semibold transition-colors ${
                   isSelected
                     ? 'text-neutral-950 dark:text-white border-b border-neutral-950 dark:border-white pb-0.5'
                     : 'text-neutral-700 dark:text-neutral-300 group-hover:text-neutral-950 dark:group-hover:text-white'

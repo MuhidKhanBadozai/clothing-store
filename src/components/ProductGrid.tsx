@@ -174,13 +174,13 @@ export const ProductGrid: React.FC = () => {
       </div>
 
       {/* Toolbar - Matches d2.png */}
-      <div className="flex items-center justify-between py-3 mb-6">
+      <div className="flex items-center justify-between py-2 sm:py-3 mb-4 sm:mb-6 gap-2">
         {/* Left: Filter Toggle Button */}
         <button
           onClick={() => setIsFilterOpen(true)}
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-semibold text-neutral-800 dark:text-neutral-200 hover:text-black dark:hover:text-white px-3 py-2 border border-neutral-300 dark:border-neutral-700 rounded-xs hover:border-black dark:hover:border-white transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs uppercase tracking-wider font-semibold text-neutral-800 dark:text-neutral-200 hover:text-black dark:hover:text-white px-2.5 py-1.5 sm:px-3 sm:py-2 border border-neutral-300 dark:border-neutral-700 rounded-xs hover:border-black dark:hover:border-white transition-colors cursor-pointer"
         >
-          <SlidersHorizontal className="w-4 h-4" />
+          <SlidersHorizontal className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           <span>Filter</span>
           {activeFiltersCount > 0 && (
             <span className="w-4 h-4 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 text-[10px] flex items-center justify-center font-bold">
@@ -190,18 +190,18 @@ export const ProductGrid: React.FC = () => {
         </button>
 
         {/* Right: Items Count & Sort By Dropdown - Exactly as in d2.png */}
-        <div className="flex items-center gap-4 sm:gap-6 text-xs text-neutral-600 dark:text-neutral-400">
-          <span className="tracking-wide font-medium tabular-nums">
+        <div className="flex items-center gap-2.5 sm:gap-6 text-xs text-neutral-600 dark:text-neutral-400">
+          <span className="tracking-wide font-medium tabular-nums text-[11px] sm:text-xs">
             {sortedProducts.length} Items
           </span>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <span className="hidden sm:inline">Sort By:</span>
             <div className="relative">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none bg-transparent border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 text-xs px-3 py-1.5 pr-8 rounded-xs cursor-pointer focus:outline-none focus:border-black dark:focus:border-white"
+                className="appearance-none bg-transparent border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 text-[11px] sm:text-xs px-2 sm:px-3 py-1.5 pr-6 sm:pr-8 rounded-xs cursor-pointer focus:outline-none focus:border-black dark:focus:border-white"
               >
                 <option value="featured" className="dark:bg-neutral-900">Featured</option>
                 <option value="price-asc" className="dark:bg-neutral-900">Price: Low to High</option>
@@ -209,7 +209,7 @@ export const ProductGrid: React.FC = () => {
                 <option value="discount" className="dark:bg-neutral-900">Biggest Discount</option>
                 <option value="newest" className="dark:bg-neutral-900">Newest Arrivals</option>
               </select>
-              <ArrowUpDown className="w-3 h-3 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400" />
+              <ArrowUpDown className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400" />
             </div>
           </div>
         </div>
@@ -217,7 +217,7 @@ export const ProductGrid: React.FC = () => {
 
       {/* Grid of Product Cards - 4 Columns on desktop as in d2.png */}
       {sortedProducts.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-6 sm:gap-x-6 sm:gap-y-10">
           {sortedProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

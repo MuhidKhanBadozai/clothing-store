@@ -142,7 +142,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
 
         {/* Size Selector Buttons: XS, S, M, L, XL - Matches d2.png */}
-        <div className="mt-2.5 flex items-center gap-1.5 flex-wrap">
+        <div className="mt-2 sm:mt-2.5 flex items-center gap-1 sm:gap-1.5 flex-wrap">
           {availableSizes.map((sz) => {
             const sizeData = product.sizes.find((s) => s.size === sz);
             const inStock = sizeData ? sizeData.stock > 0 : false;
@@ -155,7 +155,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 disabled={!inStock}
                 onClick={(e) => handleSizeClick(e, sz)}
                 title={inStock ? `Size ${sz} (${stockCount} in stock) - Click to Add` : `Size ${sz} Out of Stock`}
-                className={`w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[10px] sm:text-xs font-medium border rounded-xs transition-all ${
+                className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-[9px] sm:text-xs font-medium border rounded-xs transition-all cursor-pointer ${
                   isJustAdded
                     ? 'bg-neutral-900 text-white border-neutral-900 dark:bg-white dark:text-neutral-900'
                     : inStock

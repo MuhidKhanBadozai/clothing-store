@@ -389,7 +389,6 @@ export const ProductDetailModal: React.FC = () => {
                           <div className="p-3 text-neutral-600 dark:text-neutral-400 space-y-1.5">
                             <p>· Flat delivery fee of PKR 250 across all cities in Pakistan.</p>
                             <p>· Free standard delivery on domestic orders above PKR 15,000.</p>
-                            <p>· Free DHL/FedEx international delivery on orders above $300.</p>
                             <p>· Cash on Delivery (COD) available nationwide.</p>
                           </div>
                         )}

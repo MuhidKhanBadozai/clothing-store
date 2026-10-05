@@ -17,7 +17,7 @@ export const HeroBanner: React.FC = () => {
               <span>Festive Lawn '26 Showcase</span>
             </div>
 
-            <h1 className="font-editorial text-4xl sm:text-5xl lg:text-6xl font-light text-neutral-950 dark:text-white leading-[1.1] tracking-tight">
+            <h1 className="font-editorial text-3xl sm:text-5xl lg:text-6xl font-light text-neutral-950 dark:text-white leading-[1.15] tracking-tight">
               Artisanal Luxury. <br />
               <span className="italic font-normal">Modern Silhouettes.</span>
             </h1>
@@ -26,13 +26,13 @@ export const HeroBanner: React.FC = () => {
               Explore the iconic FAMMA collection — intricately stitched viscose, printed lawn co-ord culottes, and exquisite chikankari threadwork.
             </p>
 
-            <div className="pt-2 flex items-center gap-3 sm:gap-4 flex-wrap">
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4">
               <button
                 onClick={() => {
                   setActiveCategory('READY TO WEAR');
                   window.scrollTo({ top: 400, behavior: 'smooth' });
                 }}
-                className="px-6 py-3.5 bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 text-xs uppercase tracking-widest font-semibold rounded-xs hover:opacity-90 transition-opacity flex items-center gap-2 cursor-pointer shadow-sm"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 text-xs uppercase tracking-widest font-semibold rounded-xs hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer shadow-sm text-center"
               >
                 <span>Shop Ready to Wear</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -43,7 +43,7 @@ export const HeroBanner: React.FC = () => {
                   setActiveCategory('SALE');
                   window.scrollTo({ top: 400, behavior: 'smooth' });
                 }}
-                className="px-6 py-3.5 border border-red-500/80 text-red-600 dark:text-red-400 text-xs uppercase tracking-widest font-semibold rounded-xs hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors cursor-pointer"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 border border-red-500/80 text-red-600 dark:text-red-400 text-xs uppercase tracking-widest font-semibold rounded-xs hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors cursor-pointer text-center justify-center flex items-center"
               >
                 Flat 30% Off Sale
               </button>
