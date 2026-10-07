@@ -181,6 +181,7 @@ export const SearchModal: React.FC = () => {
                           className="py-3 flex items-center gap-4 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800/50 px-2 rounded-sm transition-colors group"
                         >
                           <img
+                            referrerPolicy="no-referrer"
                             src={product.images[0]}
                             alt={product.name}
                             className="w-14 h-18 object-cover bg-neutral-100 dark:bg-neutral-800 shrink-0"

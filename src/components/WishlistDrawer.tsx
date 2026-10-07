@@ -80,6 +80,7 @@ export const WishlistDrawer: React.FC = () => {
                       className="w-20 h-24 bg-neutral-100 dark:bg-neutral-800 rounded-xs overflow-hidden shrink-0 cursor-pointer"
                     >
                       <img
+                        referrerPolicy="no-referrer"
                         src={product.images[0]}
                         alt={product.name}
                         className="w-full h-full object-cover object-top hover:scale-105 transition-transform"

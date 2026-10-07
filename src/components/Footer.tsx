@@ -1,214 +1,162 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useStore } from '../context/StoreContext';
-import { Mail, Check, Boxes, MapPin, Phone, ShieldCheck } from 'lucide-react';
+import { MapPin, Phone } from 'lucide-react';
 
 interface FooterProps {
   onOpenAccount: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
-  const { setActiveCategory, setIsAdminPanelOpen, showToast } = useStore();
-  const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
+  const { setActiveCategory } = useStore();
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newsletterEmail) return;
-    setSubscribed(true);
-    showToast('Subscribed to VIP previews and new seasonal drops!');
-    setNewsletterEmail('');
+  const nav = (page: string) => {
+    setActiveCategory(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="bg-neutral-950 text-neutral-300 pt-16 pb-12 border-t border-neutral-800 transition-colors">
+    <footer className="bg-neutral-950 text-neutral-300 pt-16 pb-12 border-t border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Top Newsletter & Brand Statement */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-12 border-b border-neutral-800">
-          <div className="lg:col-span-6 space-y-4">
-            <div>
-              <div className="flex items-center gap-2">
-                {/* <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-amber-500 font-semibold">
-                  Logo
-                </span> */}
-                <h2 className="font-brand text-2xl sm:text-3xl text-white tracking-[0.25em] uppercase">
-                  FAMMA
-                </h2>
-              </div>
-              <p className="text-[10px] uppercase tracking-[0.28em] text-neutral-400 mt-1 font-light">
-                Fashion for Every Moment
-              </p>
-            </div>
-            <p className="text-xs text-neutral-400 max-w-md leading-relaxed">
-              Established in 1989, FAMMA represents the pinnacle of luxury pret, unstitched artisanal fabrics, and contemporary silhouettes. Pioneers in celebrating rich eastern craftsmanship.
-            </p>
-            <div className="flex items-center gap-4 text-xs text-neutral-400 pt-2">
-              <span className="flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-amber-500" />
-                Karachi · Lahore · Islamabad
-              </span>
-              <span>·</span>
-              <span className="flex items-center gap-1.5">
-                <Phone className="w-3.5 h-3.5 text-amber-500" />
-                03200119800
-              </span>
-            </div>
+        {/* Brand Statement */}
+        <div className="pb-12 border-b border-neutral-800">
+          <h2 className="font-brand text-2xl sm:text-3xl text-white tracking-[0.25em] uppercase mb-1">FAMMA</h2>
+          <p className="text-[10px] uppercase tracking-[0.28em] text-neutral-500 font-light mb-4">Fashion for Every Moment</p>
+          <p className="text-xs text-neutral-400 max-w-md leading-relaxed mb-4">
+            Established in 1989, FAMMA represents the pinnacle of luxury pret, unstitched artisanal fabrics, and contemporary silhouettes. Pioneers in celebrating rich eastern craftsmanship.
+          </p>
+          <div className="flex items-center gap-4 text-xs text-neutral-500">
+            <span className="flex items-center gap-1.5">
+              <MapPin className="w-3.5 h-3.5 text-neutral-600" />
+              Karachi · Lahore · Islamabad
+            </span>
+            <span>·</span>
+            <span className="flex items-center gap-1.5">
+              <Phone className="w-3.5 h-3.5 text-neutral-600" />
+              03200119800
+            </span>
           </div>
-
-          {/* Newsletter Box */}
-          {/* <div className="lg:col-span-6 lg:pl-10 space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-white">
-              Stay in the Know
-            </h3>
-            <p className="text-xs text-neutral-400">
-              Receive exclusive early access to Summer Lawn releases, couture showcases, and flash sales.
-            </p>
-            <form onSubmit={handleSubscribe} className="flex gap-2 max-w-md">
-              <div className="relative flex-1">
-                <Mail className="w-4 h-4 text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2" />
-                <input
-                  type="email"
-                  required
-                  placeholder="Enter your email address"
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2.5 text-xs bg-neutral-900 border border-neutral-700 rounded-xs text-white placeholder:text-neutral-500 focus:outline-none focus:border-white"
-                />
-              </div>
-              <button
-                type="submit"
-                className="px-5 py-2.5 bg-white text-neutral-950 text-xs uppercase tracking-widest font-semibold rounded-xs hover:bg-neutral-200 transition-colors shrink-0"
-              >
-                {subscribed ? <Check className="w-4 h-4 text-emerald-600" /> : 'Subscribe'}
-              </button>
-            </form>
-          </div> */}
         </div>
 
-        {/* Navigation Link Columns */}
+        {/* Navigation Columns */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-b border-neutral-800 text-xs">
-          {/* Shop */}
+
+          {/* Collections */}
           <div>
-            <h4 className="font-bold text-white uppercase tracking-wider mb-4">
-              Explore Collections
-            </h4>
+            <h4 className="font-semibold text-white uppercase tracking-wider mb-4">Collections</h4>
             <ul className="space-y-2.5 text-neutral-400">
-              <li>
-                <button
-                  onClick={() => {
-                    setActiveCategory('WOMEN');
-                    window.scrollTo({ top: 350, behavior: 'smooth' });
-                  }}
-                  className="hover:text-white transition-colors"
-                >
-                  Women's Collection
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    setActiveCategory('MEN');
-                    window.scrollTo({ top: 350, behavior: 'smooth' });
-                  }}
-                  className="hover:text-white transition-colors"
-                >
-                  Men's Collection
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    setActiveCategory('READY TO WEAR');
-                    window.scrollTo({ top: 350, behavior: 'smooth' });
-                  }}
-                  className="hover:text-white transition-colors"
-                >
-                  Ready to Wear
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    setActiveCategory('UNSTITCHED FABRIC');
-                    window.scrollTo({ top: 350, behavior: 'smooth' });
-                  }}
-                  className="hover:text-white transition-colors"
-                >
-                  Unstitched Lawn '26
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    setActiveCategory('SALE');
-                    window.scrollTo({ top: 350, behavior: 'smooth' });
-                  }}
-                  className="text-red-400 hover:text-red-300 font-semibold transition-colors"
-                >
-                  Summer Sale (-30%)
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    setActiveCategory('HOME');
-                    window.scrollTo({ top: 350, behavior: 'smooth' });
-                  }}
-                  className="hover:text-white transition-colors"
-                >
-                  Home Ensembles
-                </button>
-              </li>
+              {[
+                { label: "Women's", value: 'WOMEN' },
+                { label: "Men's", value: 'MEN' },
+                { label: 'Ready to Wear', value: 'READY TO WEAR' },
+                { label: 'Unstitched Lawn', value: 'UNSTITCHED FABRIC' },
+                { label: 'Summer Sale', value: 'SALE', red: true },
+                { label: 'Home Ensembles', value: 'HOME' },
+              ].map(item => (
+                <li key={item.value}>
+                  <button
+                    onClick={() => {
+                      setActiveCategory(item.value);
+                      window.scrollTo({ top: 350, behavior: 'smooth' });
+                    }}
+                    className={`hover:text-white transition-colors ${item.red ? 'text-red-400 hover:text-red-300 font-semibold' : ''}`}
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Customer Care */}
-          <div>
-            <h4 className="font-bold text-white uppercase tracking-wider mb-4">
-              Customer Care
-            </h4>
+          {/* <div>
+            <h4 className="font-semibold text-white uppercase tracking-wider mb-4">Customer Care</h4>
             <ul className="space-y-2.5 text-neutral-400">
               <li>
-                <button onClick={onOpenAccount} className="hover:text-white transition-colors">
+                <button onClick={onOpenAccount} className="hover:text-white transition-colors text-left">
                   Track Consignment
                 </button>
               </li>
-              <li><span className="hover:text-white transition-colors cursor-pointer">Shipping &amp; Flat PKR 250 Delivery</span></li>
-              <li><span className="hover:text-white transition-colors cursor-pointer">7-Day Return Policy</span></li>
-              <li><span className="hover:text-white transition-colors cursor-pointer">Size Guide &amp; Fit Advisor</span></li>
-              <li><span className="hover:text-white transition-colors cursor-pointer">Store Locator</span></li>
+              <li>
+                <button onClick={() => nav('SHIPPING')} className="hover:text-white transition-colors text-left">
+                  Shipping & Flat PKR 250 Delivery
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('RETURN POLICY')} className="hover:text-white transition-colors text-left">
+                  7-Day Return Policy
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('SIZE GUIDE')} className="hover:text-white transition-colors text-left">
+                  Size Guide & Fit Advisor
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('STORE LOCATOR')} className="hover:text-white transition-colors text-left">
+                  Store Locator
+                </button>
+              </li>
             </ul>
-          </div>
-
-          {/* About & Policies */}
-          <div>
-            <h4 className="font-bold text-white uppercase tracking-wider mb-4">
-              Legal &amp; Heritage
-            </h4>
-            <ul className="space-y-2.5 text-neutral-400">
-              <li><span className="hover:text-white transition-colors cursor-pointer">The Atelier Heritage</span></li>
-              <li><span className="hover:text-white transition-colors cursor-pointer">Fabric &amp; Artisan Craftsmanship</span></li>
-              <li><span className="hover:text-white transition-colors cursor-pointer">Terms &amp; Conditions</span></li>
-              <li><span className="hover:text-white transition-colors cursor-pointer">Privacy &amp; Cookie Policy</span></li>
-              <li><span className="hover:text-white transition-colors cursor-pointer">Ethical Sourcing</span></li>
-            </ul>
-          </div>
-
-          {/* Backend Inventory Portal Entry */}
-          {/* <div>
-            <h4 className="font-bold text-amber-400 uppercase tracking-wider mb-4 flex items-center gap-1.5">
-              <Boxes className="w-3.5 h-3.5" />
-              <span>Backend Management</span>
-            </h4>
-            <p className="text-[11px] text-neutral-400 mb-3 leading-relaxed">
-              Internal SKU-based warehouse inventory control and multi-size tracking.
-            </p>
           </div> */}
+
+          {/* Legal & Heritage */}
+          <div>
+            <h4 className="font-semibold text-white uppercase tracking-wider mb-4">Legal & Heritage</h4>
+            <ul className="space-y-2.5 text-neutral-400">
+              <li>
+                <button onClick={() => nav('ATELIER HERITAGE')} className="hover:text-white transition-colors text-left">
+                  The Atelier Heritage
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('FABRIC CRAFTSMANSHIP')} className="hover:text-white transition-colors text-left">
+                  Fabric & Artisan Craftsmanship
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('TERMS')} className="hover:text-white transition-colors text-left">
+                  Terms & Conditions
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('PRIVACY')} className="hover:text-white transition-colors text-left">
+                  Privacy & Cookie Policy
+                </button>
+              </li>
+              <li>
+                <button onClick={() => nav('ETHICAL SOURCING')} className="hover:text-white transition-colors text-left">
+                  Ethical Sourcing
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="font-semibold text-white uppercase tracking-wider mb-4">Get in Touch</h4>
+            <ul className="space-y-2.5 text-neutral-400 text-xs">
+              <li>
+                <button
+                  onClick={() => {
+                    setActiveCategory('CONTACT US');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-white transition-colors"
+                >
+                  Contact Us
+                </button>
+              </li>
+              <li className="leading-relaxed">WhatsApp: 03200119800</li>
+              <li className="leading-relaxed">Mon–Sat: 10 AM – 8 PM</li>
+              <li className="leading-relaxed text-neutral-500">fammaclothingpk@gmail.com</li>
+            </ul>
+          </div>
         </div>
 
-        {/* Bottom Copyright & Guarantee */}
+        {/* Bottom */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-          <p>© 2026 FAMMA. All rights reserved. Registered trademark.</p>
+          <p>© {new Date().getFullYear()} FAMMA. All rights reserved. Registered trademark.</p>
           <div className="flex items-center gap-4 text-[11px]">
             <span>100% Genuine Guaranteed</span>
             <span>·</span>
@@ -217,7 +165,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAccount }) => {
             <span>Nationwide COD Available</span>
           </div>
         </div>
-
       </div>
     </footer>
   );

@@ -1,6 +1,7 @@
 import { Product, CustomerOrder, InventoryStats, ProductSize } from '../types/inventory';
 import { db } from './firebase';
 import { collection, getDocs, doc, setDoc, updateDoc, deleteDoc, addDoc } from 'firebase/firestore';
+import { googleDriveService } from './googleDriveService';
 
 const ORDERS_STORAGE_KEY = 'fama_orders';
 
@@ -42,10 +43,12 @@ class InventoryService {
         // Parse images: prefer new images[] array, fallback to legacy image string
         let parsedImages: string[] = [];
         if (Array.isArray(item.images) && item.images.length > 0) {
-          parsedImages = (item.images as string[]).filter(u => typeof u === 'string' && u.trim().length > 0);
+          parsedImages = (item.images as string[])
+            .filter(u => typeof u === 'string' && u.trim().length > 0)
+            .map(u => googleDriveService.convertToDirectGoogleDriveUrl(u));
         }
         if (parsedImages.length === 0 && item.image && typeof item.image === 'string' && item.image.trim()) {
-          parsedImages = [item.image.trim()];
+          parsedImages = [googleDriveService.convertToDirectGoogleDriveUrl(item.image.trim())];
         }
         if (parsedImages.length === 0) {
           parsedImages = ['https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1000&q=80'];
@@ -235,6 +238,33 @@ class InventoryService {
     this.products.unshift(newProduct);
     window.dispatchEvent(new Event('inventory_updated'));
     return newProduct;
+  }
+
+  public async updateProduct(id: string, updates: Partial<Product>): Promise<Product | null> {
+    const prodIndex = this.products.findIndex(p => p.id === id || p.sku.toUpperCase() === id.toUpperCase());
+    if (prodIndex === -1) return null;
+
+    const existing = this.products[prodIndex];
+    const updated: Product = {
+      ...existing,
+      ...updates
+    };
+
+    try {
+      await updateDoc(doc(db, "products", existing.id), {
+        ...updates,
+        updatedAt: new Date().toISOString()
+      });
+      this.products[prodIndex] = updated;
+      window.dispatchEvent(new Event('inventory_updated'));
+      return updated;
+    } catch (err) {
+      console.error('Error updating product in Firebase:', err);
+      // Still update in memory for active session
+      this.products[prodIndex] = updated;
+      window.dispatchEvent(new Event('inventory_updated'));
+      return updated;
+    }
   }
 
   public exportJson(): string {

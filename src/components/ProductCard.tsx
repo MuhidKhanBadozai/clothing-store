@@ -50,6 +50,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         
         {/* Main Image with Hover Switch */}
         <img
+          referrerPolicy="no-referrer"
           src={isHovered && product.images[1] ? product.images[1] : product.images[0]}
           alt={product.name}
           className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"

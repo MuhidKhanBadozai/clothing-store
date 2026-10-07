@@ -283,7 +283,7 @@ export const CheckoutModal: React.FC = () => {
                           <div key={idx} className="flex items-center justify-between text-[11px] text-neutral-700 dark:text-neutral-300 gap-2">
                             <div className="flex items-center gap-2">
                               {it.image && (
-                                <img src={it.image} alt={it.name} className="w-8 h-10 object-cover rounded-xs border border-neutral-200 dark:border-neutral-700" />
+                                <img referrerPolicy="no-referrer" src={it.image} alt={it.name} className="w-8 h-10 object-cover rounded-xs border border-neutral-200 dark:border-neutral-700" />
                               )}
                               <div>
                                 <span className="font-medium">{it.name}</span>
@@ -330,7 +330,7 @@ export const CheckoutModal: React.FC = () => {
                       {cart.map((item) => (
                         <div key={item.id} className="flex items-center gap-1.5 shrink-0 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 px-2 py-1 rounded-xs">
                           {item.image && (
-                            <img src={item.image} alt={item.name} className="w-6 h-8 object-cover rounded-xs" />
+                            <img referrerPolicy="no-referrer" src={item.image} alt={item.name} className="w-6 h-8 object-cover rounded-xs" />
                           )}
                           <div className="text-[10px]">
                             <div className="font-semibold truncate max-w-[100px] text-neutral-900 dark:text-white">{item.name}</div>

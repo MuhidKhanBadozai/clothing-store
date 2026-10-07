@@ -16,15 +16,42 @@ import { WishlistDrawer } from './components/WishlistDrawer';
 import { AccountModal } from './components/AccountModal';
 import { Footer } from './components/Footer';
 import { ContactPage } from './components/ContactPage';
+import { TrackConsignment } from './components/pages/TrackConsignment';
+import { ShippingPolicy } from './components/pages/ShippingPolicy';
+import { ReturnPolicy } from './components/pages/ReturnPolicy';
+import { SizeGuide } from './components/pages/SizeGuide';
+import { StoreLocator } from './components/pages/StoreLocator';
+import { AtelierHeritage } from './components/pages/AtelierHeritage';
+import { FabricCraftsmanship } from './components/pages/FabricCraftsmanship';
+import { TermsConditions } from './components/pages/TermsConditions';
+import { PrivacyPolicy } from './components/pages/PrivacyPolicy';
+import { EthicalSourcing } from './components/pages/EthicalSourcing';
 import { Check } from 'lucide-react';
+
+// Pages that replace the main storefront view
+const STATIC_PAGES: Record<string, React.ReactNode> = {
+  'CONTACT US': <ContactPage />,
+  'TRACK CONSIGNMENT': <TrackConsignment />,
+  'SHIPPING': <ShippingPolicy />,
+  'RETURN POLICY': <ReturnPolicy />,
+  'SIZE GUIDE': <SizeGuide />,
+  'STORE LOCATOR': <StoreLocator />,
+  'ATELIER HERITAGE': <AtelierHeritage />,
+  'FABRIC CRAFTSMANSHIP': <FabricCraftsmanship />,
+  'TERMS': <TermsConditions />,
+  'PRIVACY': <PrivacyPolicy />,
+  'ETHICAL SOURCING': <EthicalSourcing />,
+};
 
 function StoreFront() {
   const { toastMessage, activeCategory } = useStore();
   const [isAccountOpen, setIsAccountOpen] = useState(false);
 
+  const staticPage = STATIC_PAGES[activeCategory];
+
   return (
     <div className="min-h-screen flex flex-col bg-[#faf9f6] dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors duration-200">
-      {/* Toast Notification with Smooth Motion */}
+      {/* Toast */}
       <AnimatePresence>
         {toastMessage && (
           <motion.div
@@ -40,75 +67,70 @@ function StoreFront() {
         )}
       </AnimatePresence>
 
-      {/* Main Header with Top Ticker & Brand Logo */}
       <Header onOpenAccount={() => setIsAccountOpen(true)} />
-
-      {/* Mobile Sliding Drawer Navigation - Matches d1.png */}
       <MobileDrawer onOpenAccount={() => setIsAccountOpen(true)} />
 
       <main className="flex-1">
-
-        {/* Contact Page */}
-        {activeCategory === 'CONTACT US' ? (
-          <motion.div
-            key="contact-page"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            <ContactPage />
-          </motion.div>
-        ) : (
-          <>
-            {/* Story Category Circles Carousel - Matches d1.png */}
-            <CategoryStoryCircles />
-
-            {/* Hero Banner (Shown on ALL/Home) with smooth animation */}
-            <AnimatePresence mode="wait">
-              {activeCategory === 'ALL' && (
-                <motion.div
-                  key="hero-banner"
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <HeroBanner />
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Main Product Catalog Grid - Matches d2.png */}
+        <AnimatePresence mode="wait">
+          {staticPage ? (
             <motion.div
               key={activeCategory}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
             >
-              <ProductGrid />
+              {staticPage}
             </motion.div>
-          </>
-        )}
+          ) : (
+            <motion.div
+              key="storefront"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
+            >
+              <CategoryStoryCircles />
+
+              <AnimatePresence mode="wait">
+                {activeCategory === 'ALL' && (
+                  <motion.div
+                    key="hero-banner"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <HeroBanner />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <motion.div
+                key={activeCategory}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                <ProductGrid />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
 
-      {/* Slide-out & Modal Drawers (all animated with AnimatePresence) */}
       <CartDrawer />
       <CheckoutModal />
       <FilterDrawer />
       <SearchModal />
       <WishlistDrawer />
       <ProductDetailModal />
-
-      {/* Dedicated SKU Backend Inventory Management System */}
       <AdminSkuPanel />
-
-      {/* Member Account / Consignment Tracking Modal */}
       <AccountModal
         isOpen={isAccountOpen}
         onClose={() => setIsAccountOpen(false)}
       />
 
-      {/* Footer */}
       <Footer onOpenAccount={() => setIsAccountOpen(true)} />
     </div>
   );

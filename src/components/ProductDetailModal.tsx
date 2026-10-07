@@ -105,6 +105,7 @@ export const ProductDetailModal: React.FC = () => {
                 <div className="p-4 sm:p-6 bg-neutral-50 dark:bg-neutral-950 flex flex-col justify-between">
                   <div className="relative aspect-[3/4] w-full overflow-hidden bg-neutral-200 dark:bg-neutral-800 rounded-xs border border-neutral-200 dark:border-neutral-800">
                     <img
+                      referrerPolicy="no-referrer"
                       src={selectedProduct.images[activeImageIndex] || selectedProduct.images[0]}
                       alt={selectedProduct.name}
                       className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-105"
@@ -129,7 +130,7 @@ export const ProductDetailModal: React.FC = () => {
                               : 'border-neutral-200 dark:border-neutral-800 opacity-70 hover:opacity-100'
                             }`}
                         >
-                          <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
+                          <img referrerPolicy="no-referrer" src={img} alt="Thumbnail" className="w-full h-full object-cover" />
                         </button>
                       ))}
                     </div>
