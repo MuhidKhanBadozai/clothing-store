@@ -30,13 +30,19 @@ export const ProductDetailModal: React.FC = () => {
   } = useStore();
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [selectedSize, setSelectedSize] = useState<ProductSize>('M');
+  const [selectedSize, setSelectedSize] = useState<ProductSize | string>('M');
   const [quantity, setQuantity] = useState(1);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [copiedSku, setCopiedSku] = useState(false);
 
   // Accordion states
   const [openSection, setOpenSection] = useState<'desc' | 'fabric' | 'shipping'>('desc');
+
+  // Detect if this product is unstitched
+  const isUnstitched = selectedProduct
+    ? (selectedProduct as any).isUnstitched === true ||
+    (selectedProduct.sizes.length === 1 && selectedProduct.sizes[0]?.size === 'UNSTITCHED')
+    : false;
 
   const currentSizeStock =
     selectedProduct?.sizes.find((s) => s.size === selectedSize)?.stock ?? 0;
@@ -67,7 +73,20 @@ export const ProductDetailModal: React.FC = () => {
     }
   };
 
-  const availableSizes: ProductSize[] = ['XS', 'S', 'M', 'L', 'XL'];
+  const availableSizes: (ProductSize | string)[] = ['XS', 'S', 'M', 'L', 'XL'];
+
+  // When a product opens, auto-select the right default size
+  React.useEffect(() => {
+    if (!selectedProduct) return;
+    if (isUnstitched) {
+      setSelectedSize('UNSTITCHED');
+    } else {
+      // Pick first in-stock size, or 'M' as fallback
+      const firstInStock = selectedProduct.sizes.find(s => s.stock > 0);
+      setSelectedSize(firstInStock ? (firstInStock.size as ProductSize) : 'M');
+    }
+    setQuantity(1);
+  }, [selectedProduct?.id]);
 
   return (
     <AnimatePresence>
@@ -126,8 +145,8 @@ export const ProductDetailModal: React.FC = () => {
                           key={idx}
                           onClick={() => setActiveImageIndex(idx)}
                           className={`relative w-16 h-20 rounded-xs overflow-hidden border transition-all cursor-pointer ${activeImageIndex === idx
-                              ? 'border-neutral-950 dark:border-white ring-1 ring-neutral-950 dark:ring-white'
-                              : 'border-neutral-200 dark:border-neutral-800 opacity-70 hover:opacity-100'
+                            ? 'border-neutral-950 dark:border-white ring-1 ring-neutral-950 dark:ring-white'
+                            : 'border-neutral-200 dark:border-neutral-800 opacity-70 hover:opacity-100'
                             }`}
                         >
                           <img referrerPolicy="no-referrer" src={img} alt="Thumbnail" className="w-full h-full object-cover" />
@@ -187,15 +206,20 @@ export const ProductDetailModal: React.FC = () => {
                     {/* Size Selector Header */}
                     <div className="mt-6 flex items-center justify-between">
                       <label className="text-xs font-semibold uppercase tracking-wider text-neutral-800 dark:text-neutral-200">
-                        Select Size: <span className="font-bold text-black dark:text-white">{selectedSize}</span>
+                        {isUnstitched ? 'Type:' : 'Select Size:'}{' '}
+                        <span className="font-bold text-black dark:text-white">
+                          {isUnstitched ? 'UNSTITCHED' : selectedSize}
+                        </span>
                       </label>
-                      <button
-                        onClick={() => setShowSizeGuide(!showSizeGuide)}
-                        className="inline-flex items-center gap-1 text-xs text-neutral-500 hover:text-black dark:hover:text-white underline cursor-pointer"
-                      >
-                        <Ruler className="w-3 h-3" />
-                        <span>Size Chart</span>
-                      </button>
+                      {!isUnstitched && (
+                        <button
+                          onClick={() => setShowSizeGuide(!showSizeGuide)}
+                          className="inline-flex items-center gap-1 text-xs text-neutral-500 hover:text-black dark:hover:text-white underline cursor-pointer"
+                        >
+                          <Ruler className="w-3 h-3" />
+                          <span>Size Chart</span>
+                        </button>
+                      )}
                     </div>
 
                     {/* Size Guide Popup Box */}
@@ -218,33 +242,57 @@ export const ProductDetailModal: React.FC = () => {
                     )}
 
                     {/* Size Buttons */}
-                    <div className="mt-2.5 flex items-center gap-2">
-                      {availableSizes.map((sz) => {
-                        const sizeStock = selectedProduct.sizes.find((s) => s.size === sz)?.stock ?? 0;
-                        const inStock = sizeStock > 0;
-                        const isSelected = selectedSize === sz;
+                    {isUnstitched ? (
+                      /* Unstitched: show a single amber badge, pre-selected */
+                      <div className="mt-2.5 flex items-center gap-2">
+                        {/* <div className="flex-1 py-2.5 px-4 rounded-xs border-2 border-amber-400 bg-amber-50 dark:bg-amber-950/30 text-center">
+                          <span className="text-xs font-bold tracking-widest uppercase text-amber-800 dark:text-amber-300">
+                            🧵 UNSTITCHED
+                          </span>
+                          <p className="text-[10px] text-amber-600 dark:text-amber-400 mt-0.5">
+                            Unstitched fabric — get it stitched as per your measurements
+                          </p>
+                        </div> */}
+                      </div>
+                    ) : (
+                      /* Standard XS–XL size buttons */
+                      <div className="mt-2.5 flex items-center gap-2">
+                        {availableSizes.map((sz) => {
+                          const sizeStock = selectedProduct.sizes.find((s) => s.size === sz)?.stock ?? 0;
+                          const inStock = sizeStock > 0;
+                          const isSelected = selectedSize === sz;
 
-                        return (
-                          <button
-                            key={sz}
-                            disabled={!inStock}
-                            onClick={() => setSelectedSize(sz)}
-                            className={`flex-1 py-2 text-xs font-medium border rounded-xs transition-all cursor-pointer ${isSelected
+                          return (
+                            <button
+                              key={sz}
+                              disabled={!inStock}
+                              onClick={() => setSelectedSize(sz as ProductSize)}
+                              className={`flex-1 py-2 text-xs font-medium border rounded-xs transition-all cursor-pointer ${isSelected
                                 ? 'bg-neutral-950 text-white border-neutral-950 dark:bg-white dark:text-neutral-950'
                                 : inStock
                                   ? 'border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 hover:border-black dark:hover:border-white'
                                   : 'border-neutral-200 dark:border-neutral-800 text-neutral-300 dark:text-neutral-600 line-through cursor-not-allowed bg-neutral-50 dark:bg-neutral-900'
-                              }`}
-                          >
-                            {sz}
-                          </button>
-                        );
-                      })}
-                    </div>
+                                }`}
+                            >
+                              {sz}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
 
                     {/* Real-time Inventory Stock Feedback */}
                     <div className="mt-2 text-xs">
-                      {currentSizeStock > 5 ? (
+                      {isUnstitched ? (
+                        currentSizeStock > 0 ? (
+                          <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-medium">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                            In Stock ({currentSizeStock} {currentSizeStock === 1 ? 'piece' : 'pieces'} available)
+                          </span>
+                        ) : (
+                          <span className="text-red-500 font-medium">Out of Stock</span>
+                        )
+                      ) : currentSizeStock > 5 ? (
                         <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-medium">
                           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                           In Stock ({currentSizeStock} available)
@@ -297,8 +345,8 @@ export const ProductDetailModal: React.FC = () => {
                       >
                         <Heart
                           className={`w-4 h-4 ${isWishlisted(selectedProduct.id)
-                              ? 'fill-red-600 text-red-600'
-                              : 'text-neutral-700 dark:text-neutral-300'
+                            ? 'fill-red-600 text-red-600'
+                            : 'text-neutral-700 dark:text-neutral-300'
                             }`}
                         />
                       </button>

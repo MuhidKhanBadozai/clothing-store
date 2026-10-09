@@ -19,10 +19,10 @@ class InventoryService {
         const item = docSnap.data();
 
         // Parse sizes: support both structured array [{size: 'M', stock: 10}] or object {XS: 2, S: 5} or legacy quantity
-        let parsedSizes: { size: ProductSize; stock: number }[] = [];
+        let parsedSizes: { size: ProductSize | string; stock: number }[] = [];
         if (Array.isArray(item.sizes) && item.sizes.length > 0) {
           parsedSizes = item.sizes.map((s: any) => ({
-            size: s.size as ProductSize,
+            size: s.size as ProductSize | string,
             stock: Number(s.stock) || 0
           }));
         } else if (item.sizes && typeof item.sizes === 'object') {

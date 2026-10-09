@@ -23,7 +23,7 @@ interface StoreContextType {
   cartSubtotal: number;
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
-  addToCart: (product: Product, size: ProductSize, quantity?: number) => boolean;
+  addToCart: (product: Product, size: ProductSize | string, quantity?: number) => boolean;
   removeFromCart: (cartItemId: string) => void;
   updateCartQuantity: (cartItemId: string, newQty: number) => void;
   clearCart: () => void;
@@ -239,7 +239,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   // Cart operations
-  const addToCart = (product: Product, size: ProductSize, quantity = 1): boolean => {
+  const addToCart = (product: Product, size: ProductSize | string, quantity = 1): boolean => {
     const sizeStock = product.sizes.find((s) => s.size === size)?.stock ?? 0;
     if (sizeStock < quantity) {
       showToast(`Sorry, only ${sizeStock} item(s) available in size ${size}`);

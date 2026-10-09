@@ -1,7 +1,7 @@
-export type ProductSize = 'XS' | 'S' | 'M' | 'L' | 'XL';
+export type ProductSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'UNSTITCHED';
 
 export interface SizeStock {
-  size: ProductSize;
+  size: ProductSize | string;
   stock: number;
 }
 
@@ -45,7 +45,7 @@ export interface CartItem {
   name: string;
   price: number;
   originalPrice?: number;
-  size: ProductSize;
+  size: ProductSize | string;
   image: string;
   quantity: number;
   availableStock: number;
@@ -54,7 +54,7 @@ export interface CartItem {
 export interface OrderItem {
   sku: string;
   name: string;
-  size: ProductSize;
+  size: ProductSize | string;
   price: number;
   quantity: number;
   image?: string;
